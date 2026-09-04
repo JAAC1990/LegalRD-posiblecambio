@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Página de Inicio / Centro de Mando Principal de Legal RD
+ * Ruta: src/app/page.tsx
+ * Ámbito Legal: Portal de Entrada y Accesos Directos
+ * 
+ * PROPÓSITO:
+ * Portada completa con buscador semántico prominente, Centro de Mando de 11 Accesos Rápidos (Sección 45), catálogo de 42 especialidades, novedades y accesos a herramientas interactivas.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Presentación del ecosistema jurídico dominicano.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import {
   Search,
@@ -34,6 +54,11 @@ const INITIAL_SPECIALTIES = [
   { name: "Derecho Comercial y Societario", slug: "derecho-comercial", desc: "Ley 479-08 de Sociedades Comerciales, empresas individuales y contratos mercantiles." },
 ];
 
+/**
+ * Componente Principal de Vista: `HomePage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function HomePage() {
   return (
     <div className="flex flex-col w-full">

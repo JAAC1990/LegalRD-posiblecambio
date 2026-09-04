@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Comparador de Derecho Internacional con Sello de Soberanía Nacional
+ * Ruta: src/lib/data/comparativeLaw.ts
+ * Ámbito Legal: Derecho Comparado y Soberanía Jurídica Dominicana
+ * 
+ * PROPÓSITO:
+ * Análisis contrastivo entre instituciones dominicanas y legislaciones de España, México, Colombia y Estados Unidos, con advertencias formales sobre la no aplicabilidad directa en tribunales locales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Constitución Dominicana (Art. 3 Soberanía e Inviolabilidad del Ordenamiento Jurídico Nacional).
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Comparador Internacional de Instituciones Jurídicas
 
+/**
+ * Interfaz: `CountryComparisonDetail`
+ * Modela la estructura de datos para CountryComparisonDetail en el ecosistema jurídico de Legal RD.
+ */
 export interface CountryComparisonDetail {
   countryName: string;
   countryCode: string;
@@ -11,6 +35,10 @@ export interface CountryComparisonDetail {
   keyDifferences: string;
 }
 
+/**
+ * Interfaz: `ComparativeInstitutionItem`
+ * Modela la estructura de datos para ComparativeInstitutionItem en el ecosistema jurídico de Legal RD.
+ */
 export interface ComparativeInstitutionItem {
   id: string;
   slug: string;
@@ -26,6 +54,10 @@ export interface ComparativeInstitutionItem {
   practicalInsights: string[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_COMPARATIVE_LAW`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_COMPARATIVE_LAW: ComparativeInstitutionItem[] = [
   // 1. Recurso de Casación
   {
@@ -143,10 +175,18 @@ export const DOMINICAN_COMPARATIVE_LAW: ComparativeInstitutionItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllComparativeInstitutions`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllComparativeInstitutions(): Promise<ComparativeInstitutionItem[]> {
   return DOMINICAN_COMPARATIVE_LAW;
 }
 
+/**
+ * Función Operativa: `getComparativeInstitutionBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getComparativeInstitutionBySlug(slug: string): Promise<ComparativeInstitutionItem | null> {
   return DOMINICAN_COMPARATIVE_LAW.find((c) => c.slug === slug) || null;
 }

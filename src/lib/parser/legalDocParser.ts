@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Parser Inteligente de Documentos Jurídicos Dominicanos
+ * Ruta: src/lib/parser/legalDocParser.ts
+ * Ámbito Legal: Procesamiento de Textos Forenses
+ * 
+ * PROPÓSITO:
+ * Extrae automáticamente considerandos, vistos, resuelve, fallos, partes procesales y citas de artículos a partir de textos planos o leyes escaneadas.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Estructura sacramental de sentencias y leyes dominicanas.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿export interface ParsedArticle {
   articleNumber: number;
   displayNumber: string;
@@ -8,6 +28,10 @@
   confidence: 'ALTA' | 'MEDIA' | 'REVISAR';
 }
 
+/**
+ * Interfaz: `ParseResult`
+ * Modela la estructura de datos para ParseResult en el ecosistema jurídico de Legal RD.
+ */
 export interface ParseResult {
   totalArticles: number;
   detectedStructure: {
@@ -20,6 +44,10 @@ export interface ParseResult {
   extractionSummary: string;
 }
 
+/**
+ * Función Operativa: `parseLegalText`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function parseLegalText(rawText: string): ParseResult {
   const warnings: string[] = [];
   const articles: ParsedArticle[] = [];

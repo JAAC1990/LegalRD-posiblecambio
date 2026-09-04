@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(admin)/admin/page.tsx
+ * Área: Panel de Administración y Control Gubernativo
+ * 
+ * DESCRIPCIÓN:
+ * Gestión centralizada de normas, especialidades, auditoría de eventos y aprobación de cuentas de abogados.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 ﻿import Link from 'next/link';
 import {
   Award,
@@ -25,6 +42,11 @@ const ADMIN_METRICS = [
   { title: 'Eventos de Auditoría', value: 'Inmutable', desc: 'Registro de cambios de contenido', icon: History, href: '/admin/auditoria', color: 'text-rose-600 bg-rose-50' },
 ];
 
+/**
+ * Componente Principal de Vista: `AdminDashboardPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function AdminDashboardPage() {
   return (
     <div className="space-y-8 max-w-6xl">

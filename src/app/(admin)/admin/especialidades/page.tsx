@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(admin)/admin/especialidades/page.tsx
+ * Área: Panel de Administración y Control Gubernativo
+ * 
+ * DESCRIPCIÓN:
+ * Gestión centralizada de normas, especialidades, auditoría de eventos y aprobación de cuentas de abogados.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { SpecialtyIcon } from '@/components/legal/SpecialtyIcon';
@@ -37,6 +53,11 @@ const INITIAL_LIST = [
   { id: '19', name: 'Derecho Internacional Privado', slug: 'internacional-privado', description: 'Ley 544-14 sobre Derecho Internacional Privado.', iconName: 'Compass', displayOrder: 19 },
 ];
 
+/**
+ * Componente Principal de Vista: `AdminSpecialtiesPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function AdminSpecialtiesPage() {
   const [specialties, setSpecialties] = useState(INITIAL_LIST);
   const [searchTerm, setSearchTerm] = useState('');

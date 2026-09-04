@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/clientes/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import { getAllClients } from '@/lib/data/caseFiles';
 import { Users, Phone, Mail, MapPin, FolderKanban, ArrowRight, ArrowLeft } from 'lucide-react';

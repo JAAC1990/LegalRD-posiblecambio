@@ -1,7 +1,28 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/api/export/[slug]/route.ts
+ * Área: Punto de Enlace API (Endpoint de Exportación/Datos)
+ * 
+ * DESCRIPCIÓN:
+ * Generación de respuestas estructuradas y serialización de datos jurídicos para exportación.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 ﻿import { NextRequest, NextResponse } from 'next/server';
 import { getNormBySlug, getArticlesByNorm } from '@/lib/data/norms';
 import { LEGAL_BRANCHES_REPOSITORY } from '@/lib/data/repository';
 
+/**
+ * Función Operativa: `GET`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }

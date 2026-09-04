@@ -1,6 +1,28 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/notas/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import { FileEdit, Plus, Lock, Calendar, Trash2, ArrowRight } from 'lucide-react';
 
+/**
+ * Componente Principal de Vista: `NotasPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function NotasPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 w-full">

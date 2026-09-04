@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/asistente-ia/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -21,6 +37,10 @@ import {
   FileText
 } from 'lucide-react';
 
+/**
+ * Tipo: `AiMode`
+ * Define los valores admitidos para AiMode según las reglas del dominio dominicano.
+ */
 export type AiMode = 'CIUDADANO' | 'ESTUDIANTE' | 'ABOGADO' | 'INVESTIGADOR';
 
 interface LegalCitation {
@@ -84,6 +104,11 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
 ];
 
+/**
+ * Componente Principal de Vista: `AsistenteIAPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function AsistenteIAPage() {
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
   const [inputQuery, setInputQuery] = useState('');

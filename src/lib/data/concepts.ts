@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Fichas Jurídicas de Conceptos del Ordenamiento Dominicano
+ * Ruta: src/lib/data/concepts.ts
+ * Ámbito Legal: Dogmática Jurídica y Teoría General del Derecho Dominicano
+ * 
+ * PROPÓSITO:
+ * Catálogo enciclopédico de conceptos jurídicos fundamentales con definición doctrinal, base normativa, jurisprudencia vinculante SCJ/TC, plazos críticos, errores comunes y checklists procesales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Código Civil Dominicano, Código de Trabajo (Ley 16-92), Ley 108-05 de Registro Inmobiliario, Decreto 4807 de 1959, Constitución de la República Dominicana.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Fichas Jurídicas de Conceptos del Derecho Dominicano
 
+/**
+ * Interfaz: `LegalConceptItem`
+ * Modela la estructura de datos para LegalConceptItem en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalConceptItem {
   id: string;
   slug: string;
@@ -45,6 +69,10 @@ export interface LegalConceptItem {
   }[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_LEGAL_CONCEPTS`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_LEGAL_CONCEPTS: LegalConceptItem[] = [
   {
     id: 'con-1',
@@ -331,10 +359,18 @@ export const DOMINICAN_LEGAL_CONCEPTS: LegalConceptItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllLegalConcepts`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllLegalConcepts(): Promise<LegalConceptItem[]> {
   return DOMINICAN_LEGAL_CONCEPTS;
 }
 
+/**
+ * Función Operativa: `getLegalConceptBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getLegalConceptBySlug(slug: string): Promise<LegalConceptItem | null> {
   return DOMINICAN_LEGAL_CONCEPTS.find((c) => c.slug === slug) || null;
 }

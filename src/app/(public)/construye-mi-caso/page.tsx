@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/construye-mi-caso/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -20,6 +36,11 @@ import {
 } from 'lucide-react';
 import { analyzeCaseInput, CaseAnalysis13Steps, PREDEFINED_CASE_SCENARIOS } from '@/lib/data/caseBuilder';
 
+/**
+ * Componente Principal de Vista: `ConstruyeMiCasoPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function ConstruyeMiCasoPage() {
   const [inputText, setInputText] = useState<string>('Me chocaron el vehículo por detrás en un semáforo en rojo en Santo Domingo, el otro chofer no tiene seguro al día y se niega a cubrir los daños materiales de mi vehículo.');
   const [analysis, setAnalysis] = useState<CaseAnalysis13Steps>(() => analyzeCaseInput(inputText));

@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/laboratorio-casos/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -18,6 +34,11 @@ import {
   RotateCcw
 } from 'lucide-react';
 
+/**
+ * Componente Principal de Vista: `LaboratorioCasosPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function LaboratorioCasosPage() {
   const [selectedCase, setSelectedCase] = useState<HypotheticalCaseItem>(DOMINICAN_CASE_LAB_SCENARIOS[0]);
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);

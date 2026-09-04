@@ -1,6 +1,30 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Pie de Página Institucional de Legal RD
+ * Ruta: src/components/layout/Footer.tsx
+ * Ámbito Legal: Interfaz de Usuario / Footer
+ * 
+ * PROPÓSITO:
+ * Enlaces a directorios, términos de servicio, aviso legal sobre asesoría jurídica profesional, créditos y enlaces a gacetas oficiales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Avisos legales de responsabilidad profesional.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import { Scale, ShieldAlert, BookOpen, ExternalLink, Sparkles } from 'lucide-react';
 
+/**
+ * Función Operativa: `Footer`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">

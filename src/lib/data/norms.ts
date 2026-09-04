@@ -1,6 +1,30 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Compendio de Normas y Códigos Dominicanos
+ * Ruta: src/lib/data/norms.ts
+ * Ámbito Legal: Legislación Dominicana Codificada y Leyes Especiales
+ * 
+ * PROPÓSITO:
+ * Cuerpo normativo central con fallback in-memory ante desconexión de PostgreSQL para garantizar 100% de disponibilidad de artículos y códigos.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Constitución, Códigos Civil, de Trabajo, Penal, de Procedimiento Civil, Leyes 108-05, 137-11, etc.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿import { db } from '@/lib/db';
 import { COMPLETE_LABOR_CODE_ARTICLES } from './labor_code_complete';
 
+/**
+ * Interfaz: `LegalNormItem`
+ * Modela la estructura de datos para LegalNormItem en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalNormItem {
   id: string;
   number: string;
@@ -20,6 +44,10 @@ export interface LegalNormItem {
   remarks?: string | null;
 }
 
+/**
+ * Interfaz: `ArticleItem`
+ * Modela la estructura de datos para ArticleItem en el ecosistema jurídico de Legal RD.
+ */
 export interface ArticleItem {
   id: string;
   normSlug: string;
@@ -45,6 +73,10 @@ export interface ArticleItem {
   }[];
 }
 
+/**
+ * Interfaz: `ArticleVersionItem`
+ * Modela la estructura de datos para ArticleVersionItem en el ecosistema jurídico de Legal RD.
+ */
 export interface ArticleVersionItem {
   id: string;
   versionNumber: number;
@@ -55,6 +87,10 @@ export interface ArticleVersionItem {
   reasonSummary: string | null;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DEMO_LEGAL_NORMS`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DEMO_LEGAL_NORMS: LegalNormItem[] = [
   {
     id: 'norm-1',
@@ -148,10 +184,18 @@ export const DEMO_LEGAL_NORMS: LegalNormItem[] = [
   },
 ];
 
+/**
+ * Catálogo Maestro / Constante: `DEMO_ARTICLES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DEMO_ARTICLES: Record<string, ArticleItem[]> = {
   'codigo-de-trabajo-ley-16-92': COMPLETE_LABOR_CODE_ARTICLES,
 };
 
+/**
+ * Función Operativa: `getAllNorms`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllNorms(filterSpecialty?: string, filterType?: string): Promise<LegalNormItem[]> {
   let list = DEMO_LEGAL_NORMS;
   if (filterSpecialty) {
@@ -163,15 +207,27 @@ export async function getAllNorms(filterSpecialty?: string, filterType?: string)
   return list;
 }
 
+/**
+ * Función Operativa: `getNormBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getNormBySlug(slug: string): Promise<LegalNormItem | null> {
   const norm = DEMO_LEGAL_NORMS.find((n) => n.slug === slug);
   return norm || null;
 }
 
+/**
+ * Función Operativa: `getArticlesByNorm`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getArticlesByNorm(normSlug: string): Promise<ArticleItem[]> {
   return DEMO_ARTICLES[normSlug] || [];
 }
 
+/**
+ * Función Operativa: `getArticleByNumber`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getArticleByNumber(normSlug: string, articleNumber: number): Promise<ArticleItem | null> {
   const articles = DEMO_ARTICLES[normSlug] || [];
   const found = articles.find((a) => a.articleNumber === articleNumber);

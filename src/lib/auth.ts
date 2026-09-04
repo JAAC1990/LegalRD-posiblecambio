@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Módulo de Seguridad, Criptografía y Sesiones JWT
+ * Ruta: src/lib/auth.ts
+ * Ámbito Legal: Seguridad de la Información y Control de Acceso
+ * 
+ * PROPÓSITO:
+ * Funciones de hashing seguro de contraseñas (bcrypt), firma y verificación de tokens JWT, lectura de cookies HTTP-only y verificación de roles.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Estándares de seguridad de datos web y control RBAC (Role-Based Access Control).
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import * as bcrypt from 'bcryptjs';
@@ -7,6 +27,10 @@ const SECRET_KEY = new TextEncoder().encode(
   process.env.AUTH_SECRET || 'legal_rd_super_secret_jwt_key_2026_dominican_republic'
 );
 
+/**
+ * Interfaz: `SessionUser`
+ * Modela la estructura de datos para SessionUser en el ecosistema jurídico de Legal RD.
+ */
 export interface SessionUser {
   id: string;
   email: string;
@@ -29,14 +53,26 @@ if (!globalActiveSessions.__legalrd_active_sessions) {
 
 const activeSessions = globalActiveSessions.__legalrd_active_sessions;
 
+/**
+ * Función Operativa: `hashPassword`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
+/**
+ * Función Operativa: `verifyPassword`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function verifyPassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
+/**
+ * Función Operativa: `createSession`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function createSession(user: SessionUser) {
   // Generar identificador único de sesión para este inicio de sesión
   const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
@@ -69,6 +105,10 @@ export async function createSession(user: SessionUser) {
   return token;
 }
 
+/**
+ * Función Operativa: `getSession`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getSession(): Promise<SessionUser | null> {
   try {
     const cookieStore = await cookies();
@@ -107,6 +147,10 @@ export async function getSession(): Promise<SessionUser | null> {
   }
 }
 
+/**
+ * Función Operativa: `destroySession`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function destroySession() {
   try {
     const cookieStore = await cookies();

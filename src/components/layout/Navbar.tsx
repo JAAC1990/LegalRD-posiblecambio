@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Barra de Navegación Global y Mega-Menú de 4 Pilares
+ * Ruta: src/components/layout/Navbar.tsx
+ * Ámbito Legal: Interfaz de Usuario / Navegación Principal
+ * 
+ * PROPÓSITO:
+ * Barra superior con navegación estructurada en 4 pilares estratégicos (Investigación, Práctica & Litigio, Despacho Profesional y Academia), buscador rápido y control de sesión.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Diseño UX/UI responsive accesible.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import {
   Scale,
@@ -27,6 +47,10 @@ import { getSession } from '@/lib/auth';
 import { logoutAction } from '@/lib/actions/auth';
 import { getPendingRequestsCount } from '@/lib/data/userManagement';
 
+/**
+ * Función Operativa: `Navbar`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function Navbar() {
   const session = await getSession();
   const isAdmin = session?.roleType === 'SUPER_ADMIN' || session?.roleType === 'LEGAL_ADMIN';

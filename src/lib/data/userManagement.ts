@@ -1,7 +1,35 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Sistema de Gestión de Usuarios y Permisos Administrativos
+ * Ruta: src/lib/data/userManagement.ts
+ * Ámbito Legal: Seguridad, Control de Acceso y Roles de Usuario
+ * 
+ * PROPÓSITO:
+ * Administración de usuarios según roles (CIUDADANO, ESTUDIANTE, ABOGADO, SUPERADMIN), aprobaciones de colegiatura y solicitudes de acceso a la plataforma Legal RD.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Normas de privacidad y administración interna de cuentas.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿import { RoleType } from '@prisma/client';
 
+/**
+ * Tipo: `AccountStatus`
+ * Define los valores admitidos para AccountStatus según las reglas del dominio dominicano.
+ */
 export type AccountStatus = 'PENDING_APPROVAL' | 'ACTIVE' | 'REJECTED' | 'SUSPENDED';
 
+/**
+ * Interfaz: `UserProfileData`
+ * Modela la estructura de datos para UserProfileData en el ecosistema jurídico de Legal RD.
+ */
 export interface UserProfileData {
   exequaturNumber?: string;
   firmName?: string;
@@ -16,6 +44,10 @@ export interface UserProfileData {
   bio?: string;
 }
 
+/**
+ * Interfaz: `UserAccountItem`
+ * Modela la estructura de datos para UserAccountItem en el ecosistema jurídico de Legal RD.
+ */
 export interface UserAccountItem {
   id: string;
   email: string;
@@ -154,6 +186,10 @@ if (!globalUsersStore.__legalrd_users_store) {
 
 const usersMap = globalUsersStore.__legalrd_users_store;
 
+/**
+ * Función Operativa: `getAllUsers`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllUsers(): Promise<UserAccountItem[]> {
   const uniqueUsers = new Map<string, UserAccountItem>();
   for (const u of usersMap.values()) {
@@ -164,24 +200,44 @@ export async function getAllUsers(): Promise<UserAccountItem[]> {
   );
 }
 
+/**
+ * Función Operativa: `getPendingRequests`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getPendingRequests(): Promise<UserAccountItem[]> {
   const all = await getAllUsers();
   return all.filter((u) => u.status === 'PENDING_APPROVAL');
 }
 
+/**
+ * Función Operativa: `getPendingRequestsCount`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getPendingRequestsCount(): Promise<number> {
   const pending = await getPendingRequests();
   return pending.length;
 }
 
+/**
+ * Función Operativa: `getUserByEmail`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getUserByEmail(email: string): Promise<UserAccountItem | null> {
   return usersMap.get(email.toLowerCase()) || null;
 }
 
+/**
+ * Función Operativa: `getUserById`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getUserById(id: string): Promise<UserAccountItem | null> {
   return usersMap.get(id) || null;
 }
 
+/**
+ * Función Operativa: `approveUserAccount`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function approveUserAccount(userId: string, reviewerEmail: string): Promise<boolean> {
   const user = usersMap.get(userId);
   if (!user) return false;
@@ -195,6 +251,10 @@ export async function approveUserAccount(userId: string, reviewerEmail: string):
   return true;
 }
 
+/**
+ * Función Operativa: `rejectUserAccount`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function rejectUserAccount(
   userId: string,
   reason: string,
@@ -213,6 +273,10 @@ export async function rejectUserAccount(
   return true;
 }
 
+/**
+ * Función Operativa: `registerNewAccountRequest`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function registerNewAccountRequest(data: {
   fullName: string;
   email: string;
@@ -237,6 +301,10 @@ export async function registerNewAccountRequest(data: {
   return newAccount;
 }
 
+/**
+ * Función Operativa: `updateUserProfile`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function updateUserProfile(
   userId: string,
   data: {

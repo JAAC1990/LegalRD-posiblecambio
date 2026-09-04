@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/analitica/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import { BarChart3, TrendingUp, Scale, BookOpen, Layers, ShieldCheck, ArrowRight } from 'lucide-react';
 
@@ -20,6 +37,11 @@ const TOP_CITED_NORMS = [
   { name: 'Ley No. 137-11 Orgánica del Tribunal Constitucional', citationsCount: 1680, percent: 10 },
 ];
 
+/**
+ * Componente Principal de Vista: `AnaliticaJuridicaPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function AnaliticaJuridicaPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 w-full">

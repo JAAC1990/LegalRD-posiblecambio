@@ -1,3 +1,27 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Índice de Documentos y Recursos Descargables
+ * Ruta: src/lib/data/downloads.ts
+ * Ámbito Legal: Gestión Documental
+ * 
+ * PROPÓSITO:
+ * Estructuras de metadatos para archivos en formato PDF, Word y texto enriquecido para uso forense y académico.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Publicaciones oficiales dominicanas.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
+/**
+ * Interfaz: `LegalDocumentDownload`
+ * Modela la estructura de datos para LegalDocumentDownload en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalDocumentDownload {
   id: string;
   slug: string;
@@ -18,6 +42,10 @@ export interface LegalDocumentDownload {
   }[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `OFFICIAL_DOWNLOAD_REPOSITORY`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const OFFICIAL_DOWNLOAD_REPOSITORY: LegalDocumentDownload[] = [
   {
     id: 'doc-16-92',
@@ -116,6 +144,10 @@ export const OFFICIAL_DOWNLOAD_REPOSITORY: LegalDocumentDownload[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllDownloadableDocuments`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function getAllDownloadableDocuments(specialtySlug?: string) {
   if (specialtySlug) {
     return OFFICIAL_DOWNLOAD_REPOSITORY.filter((d) => d.specialtySlug === specialtySlug);

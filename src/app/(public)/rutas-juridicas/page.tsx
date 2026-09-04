@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/rutas-juridicas/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -105,6 +121,11 @@ const PRESET_ROUTES: PracticalRoute[] = [
   },
 ];
 
+/**
+ * Componente Principal de Vista: `RutasJuridicasPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function RutasJuridicasPage() {
   const [selectedRoute, setSelectedRoute] = useState<PracticalRoute>(PRESET_ROUTES[0]);
   const [customProblem, setCustomProblem] = useState<string>('');

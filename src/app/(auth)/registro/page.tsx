@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(auth)/registro/page.tsx
+ * Área: Componente del Sistema Legal RD
+ * 
+ * DESCRIPCIÓN:
+ * Módulo de interfaz y lógica operativa para la plataforma jurídica de la República Dominicana.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 ﻿'use client';
 
 import { useState } from 'react';
@@ -20,6 +37,11 @@ import {
 } from 'lucide-react';
 import { registerAction } from '@/lib/actions/auth';
 
+/**
+ * Componente Principal de Vista: `RegisterPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');

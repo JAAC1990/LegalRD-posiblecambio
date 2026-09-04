@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/simulador-casos/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -16,6 +32,11 @@ import {
 } from 'lucide-react';
 import { analyzeCaseInput, CaseAnalysis13Steps } from '@/lib/data/caseBuilder';
 
+/**
+ * Componente Principal de Vista: `SimuladorCasosPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function SimuladorCasosPage() {
   const [step, setStep] = useState<number>(1);
   const [materia, setMateria] = useState<string>('laboral');

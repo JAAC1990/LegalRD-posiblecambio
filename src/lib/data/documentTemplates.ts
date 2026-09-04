@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Generador de Modelos y Borradores Jurídicos Dominicanos
+ * Ruta: src/lib/data/documentTemplates.ts
+ * Ámbito Legal: Práctica Forense, Notarial y Litigio Procesal Dominicano
+ * 
+ * PROPÓSITO:
+ * Plantillas parametrizadas de contratos civiles, demandas laborales y actos ministeriales conforme a las formalidades sacramentales exigidas por la legislación dominicana.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Código Civil Dominicano (Arts. 1108 y 1709 y sigs.), Ley 4314 de Alquileres, Decreto 4807 de 1959, Código de Trabajo (Ley 16-92, Arts. 87, 95, 508), Código de Procedimiento Civil (Art. 61 para Actos de Alguacil).
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Generador de Modelos y Borradores Jurídicos de la República Dominicana
 
+/**
+ * Interfaz: `DocumentFieldDef`
+ * Modela la estructura de datos para DocumentFieldDef en el ecosistema jurídico de Legal RD.
+ */
 export interface DocumentFieldDef {
   key: string;
   label: string;
@@ -11,6 +35,10 @@ export interface DocumentFieldDef {
   helpText?: string;
 }
 
+/**
+ * Interfaz: `LegalDocumentTemplate`
+ * Modela la estructura de datos para LegalDocumentTemplate en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalDocumentTemplate {
   id: string;
   slug: string;
@@ -24,6 +52,10 @@ export interface LegalDocumentTemplate {
   templateGenerator: (values: Record<string, string>) => string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_DOCUMENT_TEMPLATES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_DOCUMENT_TEMPLATES: LegalDocumentTemplate[] = [
   // 1. Contrato de Alquiler de Vivienda
   {
@@ -202,10 +234,18 @@ EL ALGUACIL MINISTERIAL`,
   },
 ];
 
+/**
+ * Función Operativa: `getAllDocumentTemplates`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllDocumentTemplates(): Promise<LegalDocumentTemplate[]> {
   return DOMINICAN_DOCUMENT_TEMPLATES;
 }
 
+/**
+ * Función Operativa: `getDocumentTemplateBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getDocumentTemplateBySlug(slug: string): Promise<LegalDocumentTemplate | null> {
   return DOMINICAN_DOCUMENT_TEMPLATES.find((t) => t.slug === slug) || null;
 }

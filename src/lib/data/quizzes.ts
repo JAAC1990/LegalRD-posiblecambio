@@ -1,3 +1,27 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Banco de Cuestionarios y Evaluaciones Académicas
+ * Ruta: src/lib/data/quizzes.ts
+ * Ámbito Legal: Pedagogía Jurídica Dominicana
+ * 
+ * PROPÓSITO:
+ * Cuestionarios interactivos por especialidad legal para evaluación y afianzamiento de conocimientos dogmáticos y jurisprudenciales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Programas de estudio de las facultades de Ciencias Jurídicas en la República Dominicana.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
+/**
+ * Interfaz: `QuizQuestionData`
+ * Modela la estructura de datos para QuizQuestionData en el ecosistema jurídico de Legal RD.
+ */
 export interface QuizQuestionData {
   id: string;
   questionText: string;
@@ -8,6 +32,10 @@ export interface QuizQuestionData {
   articleUrl?: string;
 }
 
+/**
+ * Interfaz: `QuizData`
+ * Modela la estructura de datos para QuizData en el ecosistema jurídico de Legal RD.
+ */
 export interface QuizData {
   id: string;
   title: string;
@@ -18,6 +46,10 @@ export interface QuizData {
   questions: QuizQuestionData[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_QUIZZES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_QUIZZES: QuizData[] = [
   {
     id: 'derecho-laboral-desahucio',
@@ -110,6 +142,10 @@ export const DOMINICAN_QUIZZES: QuizData[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getQuizById`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function getQuizById(id: string): QuizData | null {
   return DOMINICAN_QUIZZES.find((q) => q.id === id) || null;
 }

@@ -1,7 +1,35 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Monitor Jurídico de Gacetas Oficiales y Novedades Legislativas
+ * Ruta: src/lib/data/monitor.ts
+ * Ámbito Legal: Publicidad Normativa y Actualización Jurídica Continua
+ * 
+ * PROPÓSITO:
+ * Seguimiento en tiempo real de publicaciones en la Gaceta Oficial, proyectos de ley en el Congreso Nacional y resoluciones administrativas de órganos estatales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Gacetas Oficiales del Poder Ejecutivo, Resoluciones del Consejo del Poder Judicial.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Monitor Jurídico de Actualizaciones, Reformas y Alertas Oficiales en República Dominicana
 
+/**
+ * Tipo: `AlertImpactLevel`
+ * Define los valores admitidos para AlertImpactLevel según las reglas del dominio dominicano.
+ */
 export type AlertImpactLevel = 'ALTO_IMPACTO' | 'REFORMA_INTEGRAL' | 'PROCEDIMIENTO' | 'INFORMATIVO';
 
+/**
+ * Interfaz: `LegalMonitorUpdate`
+ * Modela la estructura de datos para LegalMonitorUpdate en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalMonitorUpdate {
   id: string;
   title: string;
@@ -19,6 +47,10 @@ export interface LegalMonitorUpdate {
   urlAction?: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_MONITOR_UPDATES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_MONITOR_UPDATES: LegalMonitorUpdate[] = [
   {
     id: 'mon-1',
@@ -100,10 +132,18 @@ export const DOMINICAN_MONITOR_UPDATES: LegalMonitorUpdate[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllMonitorUpdates`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllMonitorUpdates(): Promise<LegalMonitorUpdate[]> {
   return DOMINICAN_MONITOR_UPDATES;
 }
 
+/**
+ * Función Operativa: `getMonitorUpdatesBySpecialty`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getMonitorUpdatesBySpecialty(specialtySlug: string): Promise<LegalMonitorUpdate[]> {
   return DOMINICAN_MONITOR_UPDATES.filter((u) => u.specialtySlug === specialtySlug);
 }

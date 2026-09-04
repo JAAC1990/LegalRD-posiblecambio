@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Server Actions para Autenticación de Usuarios
+ * Ruta: src/lib/actions/auth.ts
+ * Ámbito Legal: Gestión de Identidades y Autenticación
+ * 
+ * PROPÓSITO:
+ * Manejadores de servidor para registro de usuarios, login, cierre de sesión y actualización de credenciales con validación Zod y cookies seguras.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Next.js Server Actions.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿'use server';
 
 import { redirect } from 'next/navigation';
@@ -15,6 +35,10 @@ import {
 } from '@/lib/data/userManagement';
 import { revalidatePath } from 'next/cache';
 
+/**
+ * Tipo: `AuthState`
+ * Define los valores admitidos para AuthState según las reglas del dominio dominicano.
+ */
 export type AuthState = {
   error?: string;
   success?: boolean;
@@ -22,6 +46,10 @@ export type AuthState = {
   message?: string;
 };
 
+/**
+ * Función Operativa: `loginAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function loginAction(prevState: AuthState | null, formData: FormData): Promise<AuthState> {
   const rawEmail = formData.get('email') as string;
   const rawPassword = formData.get('password') as string;
@@ -80,6 +108,10 @@ export async function loginAction(prevState: AuthState | null, formData: FormDat
   redirect('/dashboard');
 }
 
+/**
+ * Función Operativa: `registerAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function registerAction(prevState: AuthState | null, formData: FormData): Promise<AuthState> {
   const rawFullName = formData.get('fullName') as string;
   const rawEmail = formData.get('email') as string;
@@ -141,6 +173,10 @@ export async function registerAction(prevState: AuthState | null, formData: Form
   }
 }
 
+/**
+ * Función Operativa: `approveUserAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function approveUserAction(formData: FormData) {
   const session = await getSession();
   if (!session || (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN')) {
@@ -156,6 +192,10 @@ export async function approveUserAction(formData: FormData) {
   revalidatePath('/admin');
 }
 
+/**
+ * Función Operativa: `rejectUserAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function rejectUserAction(formData: FormData) {
   const session = await getSession();
   if (!session || (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN')) {
@@ -172,6 +212,10 @@ export async function rejectUserAction(formData: FormData) {
   revalidatePath('/admin');
 }
 
+/**
+ * Función Operativa: `updateProfileDirectAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function updateProfileDirectAction(formData: FormData) {
   const session = await getSession();
   if (!session) return;
@@ -197,6 +241,10 @@ export async function updateProfileDirectAction(formData: FormData) {
   revalidatePath('/perfil');
 }
 
+/**
+ * Función Operativa: `logoutAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function logoutAction() {
   await destroySession();
   redirect('/');

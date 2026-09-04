@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Catálogo de Especialidades y Ramas del Derecho Dominicano
+ * Ruta: src/lib/data/specialties.ts
+ * Ámbito Legal: Clasificación Sistemática del Derecho
+ * 
+ * PROPÓSITO:
+ * Definición de las 42 ramas y especialidades jurídicas con iconos temáticos, descripción dogmática y normas vinculadas.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Clasificación general del ordenamiento jurídico dominicano.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿import { db } from '@/lib/db';
 
+/**
+ * Interfaz: `SpecialtyItem`
+ * Modela la estructura de datos para SpecialtyItem en el ecosistema jurídico de Legal RD.
+ */
 export interface SpecialtyItem {
   id: string;
   name: string;
@@ -14,6 +38,10 @@ export interface SpecialtyItem {
   proceduresCount?: number;
 }
 
+/**
+ * Catálogo Maestro / Constante: `INITIAL_DOMINICAN_SPECIALTIES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const INITIAL_DOMINICAN_SPECIALTIES: SpecialtyItem[] = [
   // 1. DERECHO CONSTITUCIONAL
   {
@@ -605,6 +633,10 @@ export const INITIAL_DOMINICAN_SPECIALTIES: SpecialtyItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllSpecialties`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllSpecialties(): Promise<SpecialtyItem[]> {
   try {
     const list = await db.specialty.findMany({
@@ -645,6 +677,10 @@ export async function getAllSpecialties(): Promise<SpecialtyItem[]> {
   return INITIAL_DOMINICAN_SPECIALTIES;
 }
 
+/**
+ * Función Operativa: `getSpecialtyBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getSpecialtyBySlug(slug: string): Promise<SpecialtyItem | null> {
   const fallback = INITIAL_DOMINICAN_SPECIALTIES.find((s) => s.slug === slug);
   if (!fallback) return null;

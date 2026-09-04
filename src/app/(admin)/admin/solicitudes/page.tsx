@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(admin)/admin/solicitudes/page.tsx
+ * Área: Panel de Administración y Control Gubernativo
+ * 
+ * DESCRIPCIÓN:
+ * Gestión centralizada de normas, especialidades, auditoría de eventos y aprobación de cuentas de abogados.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 ﻿import Link from 'next/link';
 import { getAllUsers, getPendingRequests } from '@/lib/data/userManagement';
 import { approveUserAction, rejectUserAction } from '@/lib/actions/auth';

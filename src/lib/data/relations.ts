@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Matriz de Relaciones Normativas y Derogaciones
+ * Ruta: src/lib/data/relations.ts
+ * Ámbito Legal: Técnica Normativa y Jerarquía Legal
+ * 
+ * PROPÓSITO:
+ * Mapeo explícito de jerarquías normativas, derogaciones expresas y tácitas, y concordancias entre artículos del derecho dominicano.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Principios de lex posterior derogat priori y lex specialis derogat generali.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿export type RelationType = 'MODIFIES' | 'REPEALS' | 'REGULATES' | 'COMPLEMENTS' | 'DEPENDS_ON' | 'CITES';
 
+/**
+ * Interfaz: `LegalRelationItem`
+ * Modela la estructura de datos para LegalRelationItem en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalRelationItem {
   id: string;
   sourceNorm: {
@@ -25,6 +49,10 @@ export interface LegalRelationItem {
   branchName: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_LEGAL_RELATIONS`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_LEGAL_RELATIONS: LegalRelationItem[] = [
   // 1. Ley 2-23 deroga Ley 3726 sobre Casación
   {
@@ -228,6 +256,10 @@ export const DOMINICAN_LEGAL_RELATIONS: LegalRelationItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllLegalRelations`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllLegalRelations(): Promise<LegalRelationItem[]> {
   return DOMINICAN_LEGAL_RELATIONS;
 }

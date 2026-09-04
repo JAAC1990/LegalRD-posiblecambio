@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/investigacion/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -54,6 +70,11 @@ const INITIAL_RESEARCH: ResearchNoteItem[] = [
   },
 ];
 
+/**
+ * Componente Principal de Vista: `CuadernoInvestigacionPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function CuadernoInvestigacionPage() {
   const [researches, setResearches] = useState<ResearchNoteItem[]>(INITIAL_RESEARCH);
   const [selectedId, setSelectedId] = useState<string>(INITIAL_RESEARCH[0].id);

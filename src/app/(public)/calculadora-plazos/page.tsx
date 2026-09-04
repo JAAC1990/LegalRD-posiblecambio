@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/calculadora-plazos/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import {
   DOMINICAN_DEADLINE_CATALOG,
@@ -18,6 +34,11 @@ import {
   Sparkles
 } from 'lucide-react';
 
+/**
+ * Componente Principal de Vista: `CalculadoraPlazosPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function CalculadoraPlazosPage() {
   const [selectedCatalogId, setSelectedCatalogId] = useState<string>(DOMINICAN_DEADLINE_CATALOG[0].id);
   const [startDate, setStartDate] = useState<string>(() => {

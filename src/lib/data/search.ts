@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Motor de Búsqueda Semántica y Procesamiento de Lenguaje Natural
+ * Ruta: src/lib/data/search.ts
+ * Ámbito Legal: Recuperación de Información Jurídica (Information Retrieval)
+ * 
+ * PROPÓSITO:
+ * Algoritmo de búsqueda que detecta intenciones de búsqueda en lenguaje natural dominicano (ej. "me botaron del trabajo") y mapea a normas, artículos y calculadoras pertinentes.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Mapeo a leyes y códigos oficiales de la República Dominicana.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 import { DEMO_LEGAL_NORMS, DEMO_ARTICLES, LegalNormItem, ArticleItem } from '@/lib/data/norms';
 
+/**
+ * Interfaz: `SearchResultItem`
+ * Modela la estructura de datos para SearchResultItem en el ecosistema jurídico de Legal RD.
+ */
 export interface SearchResultItem {
   id: string;
   type: 'NORM' | 'ARTICLE';
@@ -13,6 +37,10 @@ export interface SearchResultItem {
   keywords?: string[];
 }
 
+/**
+ * Interfaz: `SearchFilters`
+ * Modela la estructura de datos para SearchFilters en el ecosistema jurídico de Legal RD.
+ */
 export interface SearchFilters {
   query?: string;
   specialty?: string;
@@ -20,6 +48,10 @@ export interface SearchFilters {
   status?: string;
 }
 
+/**
+ * Función Operativa: `searchLegalContent`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function searchLegalContent(filters: SearchFilters): Promise<{ results: SearchResultItem[]; total: number }> {
   const query = (filters.query || '').toLowerCase().trim();
   const results: SearchResultItem[] = [];

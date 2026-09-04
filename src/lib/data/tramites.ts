@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Guía Oficial de Trámites Jurídicos e Institucionales de la República Dominicana
+ * Ruta: src/lib/data/tramites.ts
+ * Ámbito Legal: Derecho Administrativo, Tributario, Corporativo y Registral Dominicano
+ * 
+ * PROPÓSITO:
+ * Estructura detallada de pasos, requisitos, costos oficiales y ventanillas para trámites ante DGII, Registro de Títulos, ONAPI, Ministerio de Trabajo y Tesorería de la Seguridad Social (TSS).
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Código Tributario (Ley 11-92, Art. 288), Ley 108-05 de Registro Inmobiliario, Ley 20-00 sobre Propiedad Industrial, Ley 87-01 sobre el Sistema Dominicano de Seguridad Social.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Guía Integral de Trámites Jurídicos y Administrativos de la República Dominicana
 
+/**
+ * Interfaz: `TramiteOfficialItem`
+ * Modela la estructura de datos para TramiteOfficialItem en el ecosistema jurídico de Legal RD.
+ */
 export interface TramiteOfficialItem {
   id: string;
   slug: string;
@@ -40,6 +64,10 @@ export interface TramiteOfficialItem {
   };
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_OFFICIAL_TRAMITES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_OFFICIAL_TRAMITES: TramiteOfficialItem[] = [
   // 1. DGII - Transferencia Inmobiliaria
   {
@@ -209,10 +237,18 @@ export const DOMINICAN_OFFICIAL_TRAMITES: TramiteOfficialItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllDominicanTramites`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllDominicanTramites(): Promise<TramiteOfficialItem[]> {
   return DOMINICAN_OFFICIAL_TRAMITES;
 }
 
+/**
+ * Función Operativa: `getTramiteBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getTramiteBySlug(slug: string): Promise<TramiteOfficialItem | null> {
   return DOMINICAN_OFFICIAL_TRAMITES.find((t) => t.slug === slug) || null;
 }

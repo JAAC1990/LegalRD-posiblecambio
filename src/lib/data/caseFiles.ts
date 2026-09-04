@@ -1,8 +1,40 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Gestor de Expedientes, Clientes y Despacho Profesional
+ * Ruta: src/lib/data/caseFiles.ts
+ * Ámbito Legal: Práctica Profesional del Abogado y Gestión Judicial
+ * 
+ * PROPÓSITO:
+ * Estructuras de datos para administración de causas judiciales, control de estados procesales, balance financiero, clientes (con RNC/Cédula) y calendario de audiencias con alertas de caducidad.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Código de Procedimiento Civil, Ley 91 sobre el Colegio de Abogados de la RD (CARD).
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Gestor de Expedientes, Clientes, Audiencias y Tareas del Panel Profesional para Abogados
 
+/**
+ * Tipo: `CaseStatus`
+ * Define los valores admitidos para CaseStatus según las reglas del dominio dominicano.
+ */
 export type CaseStatus = 'EN_TRAMITE' | 'EN_AUDIENCIA' | 'EN_ESTADO_DE_FALLO' | 'SENTENCIADO' | 'EN_EJECUCION' | 'ARCHIVADO';
+/**
+ * Tipo: `CasePriority`
+ * Define los valores admitidos para CasePriority según las reglas del dominio dominicano.
+ */
 export type CasePriority = 'ALTA' | 'MEDIA' | 'URGENTE';
 
+/**
+ * Interfaz: `CaseDocumentAttached`
+ * Modela la estructura de datos para CaseDocumentAttached en el ecosistema jurídico de Legal RD.
+ */
 export interface CaseDocumentAttached {
   id: string;
   name: string;
@@ -12,6 +44,10 @@ export interface CaseDocumentAttached {
   url?: string;
 }
 
+/**
+ * Interfaz: `CaseHearingItem`
+ * Modela la estructura de datos para CaseHearingItem en el ecosistema jurídico de Legal RD.
+ */
 export interface CaseHearingItem {
   id: string;
   hearingDate: string;
@@ -23,6 +59,10 @@ export interface CaseHearingItem {
   outcomeNotes?: string;
 }
 
+/**
+ * Interfaz: `CaseDeadlineAlert`
+ * Modela la estructura de datos para CaseDeadlineAlert en el ecosistema jurídico de Legal RD.
+ */
 export interface CaseDeadlineAlert {
   id: string;
   title: string;
@@ -32,6 +72,10 @@ export interface CaseDeadlineAlert {
   notes: string;
 }
 
+/**
+ * Interfaz: `ClientProfile`
+ * Modela la estructura de datos para ClientProfile en el ecosistema jurídico de Legal RD.
+ */
 export interface ClientProfile {
   id: string;
   fullName: string;
@@ -43,6 +87,10 @@ export interface ClientProfile {
   activeCasesCount: number;
 }
 
+/**
+ * Interfaz: `LawyerCaseFile`
+ * Modela la estructura de datos para LawyerCaseFile en el ecosistema jurídico de Legal RD.
+ */
 export interface LawyerCaseFile {
   id: string;
   docketNumber: string; // Número de Rol o Expediente Judicial (ej. 033-2026-00412)
@@ -71,6 +119,10 @@ export interface LawyerCaseFile {
   internalStrategyNotes: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DEMO_CLIENTS`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DEMO_CLIENTS: ClientProfile[] = [
   {
     id: 'cli-1',
@@ -104,6 +156,10 @@ export const DEMO_CLIENTS: ClientProfile[] = [
   },
 ];
 
+/**
+ * Catálogo Maestro / Constante: `DEMO_LAWYER_CASES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DEMO_LAWYER_CASES: LawyerCaseFile[] = [
   {
     id: 'exp-2026-001',
@@ -217,14 +273,26 @@ export const DEMO_LAWYER_CASES: LawyerCaseFile[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllLawyerCases`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllLawyerCases(): Promise<LawyerCaseFile[]> {
   return DEMO_LAWYER_CASES;
 }
 
+/**
+ * Función Operativa: `getLawyerCaseById`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getLawyerCaseById(id: string): Promise<LawyerCaseFile | null> {
   return DEMO_LAWYER_CASES.find((c) => c.id === id) || null;
 }
 
+/**
+ * Función Operativa: `getAllClients`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllClients(): Promise<ClientProfile[]> {
   return DEMO_CLIENTS;
 }

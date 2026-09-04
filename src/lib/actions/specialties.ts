@@ -1,15 +1,42 @@
 'use server';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Server Actions para Administración de Especialidades
+ * Ruta: src/lib/actions/specialties.ts
+ * Ámbito Legal: Administración de Contenido Jurídico
+ * 
+ * PROPÓSITO:
+ * Mutaciones de servidor para creación, edición y activación de especialidades jurídicas con respaldo en memoria.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Next.js Server Actions.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/auth';
 import { specialtySchema } from '@/lib/validations/specialty';
 
+/**
+ * Tipo: `SpecialtyActionState`
+ * Define los valores admitidos para SpecialtyActionState según las reglas del dominio dominicano.
+ */
 export type SpecialtyActionState = {
   error?: string;
   success?: boolean;
 };
 
+/**
+ * Función Operativa: `createSpecialtyAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function createSpecialtyAction(prevState: SpecialtyActionState | null, formData: FormData): Promise<SpecialtyActionState> {
   const session = await getSession();
   if (!session || (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN')) {
@@ -50,6 +77,10 @@ export async function createSpecialtyAction(prevState: SpecialtyActionState | nu
   return { success: true };
 }
 
+/**
+ * Función Operativa: `updateSpecialtyAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function updateSpecialtyAction(id: string, formData: FormData): Promise<SpecialtyActionState> {
   const session = await getSession();
   if (!session || (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN')) {
@@ -88,6 +119,10 @@ export async function updateSpecialtyAction(id: string, formData: FormData): Pro
   return { success: true };
 }
 
+/**
+ * Función Operativa: `deleteSpecialtyAction`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function deleteSpecialtyAction(id: string): Promise<SpecialtyActionState> {
   const session = await getSession();
   if (!session || session.roleType !== 'SUPER_ADMIN') {

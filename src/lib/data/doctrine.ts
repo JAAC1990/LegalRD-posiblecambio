@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Fondo y Catálogo de Doctrina Jurídica Dominicana
+ * Ruta: src/lib/data/doctrine.ts
+ * Ámbito Legal: Doctrina Jurídica Nacional y Tratados Doctrinales
+ * 
+ * PROPÓSITO:
+ * Registro estructurado de las obras, tratados y monografías de juristas dominicanos de referencia (Subero Isa, Jorge Prats, Hernández Rueda, Headrick, Pérez Méndez) con fichas descriptivas y tesis destacadas.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Obras publicadas y consagradas en la bibliografía jurídica de la República Dominicana.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Repositorio de Doctrina Jurídica Dominicana
 
+/**
+ * Interfaz: `DoctrineItem`
+ * Modela la estructura de datos para DoctrineItem en el ecosistema jurídico de Legal RD.
+ */
 export interface DoctrineItem {
   id: string;
   slug: string;
@@ -21,6 +45,10 @@ export interface DoctrineItem {
   excerpt: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_DOCTRINE_REPOSITORY`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_DOCTRINE_REPOSITORY: DoctrineItem[] = [
   {
     id: 'doc-1',
@@ -134,10 +162,18 @@ export const DOMINICAN_DOCTRINE_REPOSITORY: DoctrineItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllDoctrines`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllDoctrines(): Promise<DoctrineItem[]> {
   return DOMINICAN_DOCTRINE_REPOSITORY;
 }
 
+/**
+ * Función Operativa: `getDoctrineBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getDoctrineBySlug(slug: string): Promise<DoctrineItem | null> {
   return DOMINICAN_DOCTRINE_REPOSITORY.find((d) => d.slug === slug) || null;
 }

@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Motor de Diagnóstico y Construcción de Casos (13 Dimensiones)
+ * Ruta: src/lib/data/caseBuilder.ts
+ * Ámbito Legal: Estrategia Procesal, Valoración Probatoria y Análisis de Viabilidad Jurídica
+ * 
+ * PROPÓSITO:
+ * Algoritmo evaluador que procesa 13 dimensiones críticas de un caso (hechos, pruebas, prescripción, competencia, legitimación, contra-argumentos) y genera diagnósticos de viabilidad con recomendaciones.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Constitución Dominicana (Art. 69 Debido Proceso), Código de Procedimiento Civil, Código de Trabajo, Ley 108-05, Ley 2-23.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Lógica Integral de Diagnóstico: Construye Mi Caso, Simulador de Casos y Segunda Opinión Jurídica
 
+/**
+ * Interfaz: `CaseAnalysis13Steps`
+ * Modela la estructura de datos para CaseAnalysis13Steps en el ecosistema jurídico de Legal RD.
+ */
 export interface CaseAnalysis13Steps {
   hechos: string;
   problemasJuridicos: string[];
@@ -48,6 +72,10 @@ export interface CaseAnalysis13Steps {
   rutaActuacion: string[];
 }
 
+/**
+ * Interfaz: `SecondOpinionAudit`
+ * Modela la estructura de datos para SecondOpinionAudit en el ecosistema jurídico de Legal RD.
+ */
 export interface SecondOpinionAudit {
   id: string;
   caseSummary: string;

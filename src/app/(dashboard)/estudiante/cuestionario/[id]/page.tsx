@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/estudiante/cuestionario/[id]/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState, use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -19,6 +35,11 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+/**
+ * Componente Principal de Vista: `QuizRunnerPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function QuizRunnerPage({ params }: Props) {
   const { id } = use(params);
   const quiz = getQuizById(id);

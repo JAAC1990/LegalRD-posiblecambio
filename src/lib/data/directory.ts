@@ -1,7 +1,35 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Directorio y Mapa Jurisdiccional de la República Dominicana
+ * Ruta: src/lib/data/directory.ts
+ * Ámbito Legal: Organización Judicial Dominicana (Ley 821 de Organización Judicial)
+ * 
+ * PROPÓSITO:
+ * Base de datos geo-jurisdiccional con sedes, palacios de justicia, salas de la SCJ, Tribunal Constitucional, oficinas del Registro Inmobiliario, ONAPI y fiscalías con datos de contacto, horarios y servicios.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Ley 821 de Organización Judicial, Ley 108-05 de Registro Inmobiliario, Ley 137-11 del TC, Resolución 001-2021 de la SCJ.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Directorio y Mapa Judicial de Instituciones de la República Dominicana
 
+/**
+ * Tipo: `EntityCategory`
+ * Define los valores admitidos para EntityCategory según las reglas del dominio dominicano.
+ */
 export type EntityCategory = 'TRIBUNAL' | 'FISCALIA' | 'REGISTRO' | 'NOTARIA' | 'ENTIDAD_REGULADORA' | 'MEDIACION';
 
+/**
+ * Interfaz: `JudicialEntityItem`
+ * Modela la estructura de datos para JudicialEntityItem en el ecosistema jurídico de Legal RD.
+ */
 export interface JudicialEntityItem {
   id: string;
   name: string;
@@ -22,6 +50,10 @@ export interface JudicialEntityItem {
   competenceSummary: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_JUDICIAL_ENTITIES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_JUDICIAL_ENTITIES: JudicialEntityItem[] = [
   // 1. Suprema Corte de Justicia y Consejo del Poder Judicial
   {
@@ -183,10 +215,18 @@ export const DOMINICAN_JUDICIAL_ENTITIES: JudicialEntityItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllJudicialEntities`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllJudicialEntities(): Promise<JudicialEntityItem[]> {
   return DOMINICAN_JUDICIAL_ENTITIES;
 }
 
+/**
+ * Función Operativa: `getJudicialEntityById`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getJudicialEntityById(id: string): Promise<JudicialEntityItem | null> {
   return DOMINICAN_JUDICIAL_ENTITIES.find((e) => e.id === id) || null;
 }

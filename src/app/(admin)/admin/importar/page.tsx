@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(admin)/admin/importar/page.tsx
+ * Área: Panel de Administración y Control Gubernativo
+ * 
+ * DESCRIPCIÓN:
+ * Gestión centralizada de normas, especialidades, auditoría de eventos y aprobación de cuentas de abogados.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 ﻿'use client';
 
 import { useState } from 'react';
@@ -45,6 +62,11 @@ Artículo 5.- Infracciones y Sanciones. El incumplimiento de los preceptos estab
 
 Artículo 6.- Entrada en vigor. La presente ley entrará en vigencia a partir de su publicación en la Gaceta Oficial y deroga cualquier disposición legal contraria.`;
 
+/**
+ * Componente Principal de Vista: `AdminImportarPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function AdminImportarPage() {
   const [normType, setNormType] = useState('LEY');
   const [normNumber, setNormNumber] = useState('Ley 55-26');

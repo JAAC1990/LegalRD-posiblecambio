@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Laboratorio de Casos Hipotéticos para Formación Jurídica
+ * Ruta: src/lib/data/caseLab.ts
+ * Ámbito Legal: Educación Jurídica y Práctica Forense Simulada
+ * 
+ * PROPÓSITO:
+ * Banco de casos prácticos estructurados para estudiantes de Derecho con retroalimentación instantánea, evaluación de razonamiento jurídico y citación de normas aplicables.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Casos inspirados en controversias reales resueltas por las cortes dominicanas.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Laboratorio de Casos Hipotéticos para Estudiantes de Derecho (Modo Universidad)
 
+/**
+ * Interfaz: `CaseLabStepQuestion`
+ * Modela la estructura de datos para CaseLabStepQuestion en el ecosistema jurídico de Legal RD.
+ */
 export interface CaseLabStepQuestion {
   stepNumber: number;
   stepTitle: string;
@@ -13,6 +37,10 @@ export interface CaseLabStepQuestion {
   pedagogicalTip: string;
 }
 
+/**
+ * Interfaz: `HypotheticalCaseItem`
+ * Modela la estructura de datos para HypotheticalCaseItem en el ecosistema jurídico de Legal RD.
+ */
 export interface HypotheticalCaseItem {
   id: string;
   slug: string;
@@ -27,6 +55,10 @@ export interface HypotheticalCaseItem {
   normativeBasis: string[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_CASE_LAB_SCENARIOS`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_CASE_LAB_SCENARIOS: HypotheticalCaseItem[] = [
   {
     id: 'lab-case-1',
@@ -150,10 +182,18 @@ export const DOMINICAN_CASE_LAB_SCENARIOS: HypotheticalCaseItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllCaseLabScenarios`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllCaseLabScenarios(): Promise<HypotheticalCaseItem[]> {
   return DOMINICAN_CASE_LAB_SCENARIOS;
 }
 
+/**
+ * Función Operativa: `getCaseLabScenarioBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getCaseLabScenarioBySlug(slug: string): Promise<HypotheticalCaseItem | null> {
   return DOMINICAN_CASE_LAB_SCENARIOS.find((c) => c.slug === slug) || null;
 }

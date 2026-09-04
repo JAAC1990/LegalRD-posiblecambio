@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/generador-documentos/[slug]/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState, use } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -21,6 +37,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+/**
+ * Componente Principal de Vista: `GeneradorDocumentoSlugPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function GeneradorDocumentoSlugPage({ params }: Props) {
   const { slug } = use(params);
   const template = DOMINICAN_DOCUMENT_TEMPLATES.find((t) => t.slug === slug);

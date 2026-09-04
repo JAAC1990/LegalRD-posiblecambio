@@ -1,3 +1,20 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(dashboard)/expedientes/[id]/page.tsx
+ * Área: Área Profesional y Privada (Despacho / Universidad)
+ * 
+ * DESCRIPCIÓN:
+ * Gestión privada de causas judiciales, audiencias, clientes, expedientes y laboratorio de casos académicos.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
+
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getLawyerCaseById, getAllLawyerCases } from '@/lib/data/caseFiles';
@@ -20,6 +37,10 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+/**
+ * Función Operativa: `generateStaticParams`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function generateStaticParams() {
   const cases = await getAllLawyerCases();
   return cases.map((c) => ({ id: c.id }));

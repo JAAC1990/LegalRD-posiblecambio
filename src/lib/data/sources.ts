@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Repositorio de Fuentes Oficiales y Enlaces Institucionales
+ * Ruta: src/lib/data/sources.ts
+ * Ámbito Legal: Transparencia y Seguridad Jurídica
+ * 
+ * PROPÓSITO:
+ * Catálogo verificado de enlaces oficiales a la Suprema Corte de Justicia, Tribunal Constitucional, Consultoría Jurídica del Poder Ejecutivo y órganos registrales.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Fuentes primarias y oficiales del Estado Dominicano.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿export interface LegalSourceItem {
   id: string;
   sourceNumber: number;
@@ -16,6 +36,10 @@
   iconName: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_LEGAL_SOURCES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_LEGAL_SOURCES: LegalSourceItem[] = [
   // 1. CONSTITUCIÓN
   {
@@ -334,10 +358,18 @@ export const DOMINICAN_LEGAL_SOURCES: LegalSourceItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllLegalSources`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllLegalSources(): Promise<LegalSourceItem[]> {
   return DOMINICAN_LEGAL_SOURCES;
 }
 
+/**
+ * Función Operativa: `getLegalSourceBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getLegalSourceBySlug(slug: string): Promise<LegalSourceItem | null> {
   const source = DOMINICAN_LEGAL_SOURCES.find((s) => s.slug === slug);
   return source || null;

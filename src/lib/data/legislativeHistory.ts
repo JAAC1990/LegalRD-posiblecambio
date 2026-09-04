@@ -1,5 +1,29 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Historial Legislativo y Cuadro Comparativo Antes vs. Después
+ * Ruta: src/lib/data/legislativeHistory.ts
+ * Ámbito Legal: Historia del Derecho Dominicano y Técnica Legislativa
+ * 
+ * PROPÓSITO:
+ * Registro cronológico y análisis comparativo artículo por artículo de reformas trascendentales en RD, incluyendo la nueva Ley de Casación (Ley 2-23 vs. Ley 3726) y la Ley de Registro Civil (Ley 4-23 vs. Ley 659).
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Ley 2-23 de Casación, Ley 3726 de 1953, Ley 4-23 de los Actos del Estado Civil, Ley 659 de 1944.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Historial Legislativo y Comparador de Reformas Normativas de la República Dominicana
 
+/**
+ * Interfaz: `LegislativeChangeDiff`
+ * Modela la estructura de datos para LegislativeChangeDiff en el ecosistema jurídico de Legal RD.
+ */
 export interface LegislativeChangeDiff {
   articleOrTopic: string;
   previousLawRef: string;
@@ -10,6 +34,10 @@ export interface LegislativeChangeDiff {
   practicalImpact: string;
 }
 
+/**
+ * Interfaz: `LegislativeTimelineMilestone`
+ * Modela la estructura de datos para LegislativeTimelineMilestone en el ecosistema jurídico de Legal RD.
+ */
 export interface LegislativeTimelineMilestone {
   date: string;
   year: number;
@@ -20,6 +48,10 @@ export interface LegislativeTimelineMilestone {
   summary: string;
 }
 
+/**
+ * Interfaz: `LegislativeHistoryItem`
+ * Modela la estructura de datos para LegislativeHistoryItem en el ecosistema jurídico de Legal RD.
+ */
 export interface LegislativeHistoryItem {
   id: string;
   slug: string;
@@ -33,6 +65,10 @@ export interface LegislativeHistoryItem {
   diffComparisons: LegislativeChangeDiff[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_LEGISLATIVE_HISTORIES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_LEGISLATIVE_HISTORIES: LegislativeHistoryItem[] = [
   // 1. Reforma del Recurso de Casación (Ley 2-23 vs Ley 3726)
   {
@@ -139,10 +175,18 @@ export const DOMINICAN_LEGISLATIVE_HISTORIES: LegislativeHistoryItem[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getAllLegislativeHistories`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getAllLegislativeHistories(): Promise<LegislativeHistoryItem[]> {
   return DOMINICAN_LEGISLATIVE_HISTORIES;
 }
 
+/**
+ * Función Operativa: `getLegislativeHistoryBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getLegislativeHistoryBySlug(slug: string): Promise<LegislativeHistoryItem | null> {
   return DOMINICAN_LEGISLATIVE_HISTORIES.find((h) => h.slug === slug) || null;
 }

@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Middleware de Enrutamiento y Protección de Rutas
+ * Ruta: src/middleware.ts
+ * Ámbito Legal: Seguridad Perimetral y Control de Navegación
+ * 
+ * PROPÓSITO:
+ * Intercepta solicitudes HTTP entrantes, valida tokens de autenticación en rutas protegidas (/dashboard, /admin, /expedientes) y gestiona redirecciones por rol.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Next.js 16 Edge Middleware.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
@@ -9,6 +29,10 @@ const SECRET_KEY = new TextEncoder().encode(
 const PROTECTED_USER_ROUTES = ['/dashboard', '/favoritos', '/notas', '/carpetas', '/estudiante', '/perfil'];
 const ADMIN_ROUTES = ['/admin'];
 
+/**
+ * Función Operativa: `middleware`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('legalrd_session')?.value;

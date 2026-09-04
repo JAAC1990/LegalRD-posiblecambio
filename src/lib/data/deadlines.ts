@@ -1,7 +1,35 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Motor de Cómputo de Plazos Procesales de la República Dominicana
+ * Ruta: src/lib/data/deadlines.ts
+ * Ámbito Legal: Derecho Procesal Civil, Laboral, Inmobiliario, Administrativo y Constitucional Dominicano
+ * 
+ * PROPÓSITO:
+ * Calcula fechas límites procesales aplicando reglas legales específicas: días hábiles judiciales, plazos francos (Art. 1033 CPC), cómputos de fecha a fecha y calendario corrido.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Código de Procedimiento Civil (Art. 1033), Código de Trabajo (Ley 16-92, Arts. 86, 621, 701), Ley 108-05 de Registro Inmobiliario, Ley 137-11 del Tribunal Constitucional, Ley 2-23 sobre Procedimiento de Casación.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Motor de Cómputo de Plazos Procesales de la República Dominicana
 
+/**
+ * Tipo: `DeadlineType`
+ * Define los valores admitidos para DeadlineType según las reglas del dominio dominicano.
+ */
 export type DeadlineType = 'HABIL' | 'CALENDARIO' | 'FRANCO' | 'MESES_FECHA_A_FECHA';
 
+/**
+ * Interfaz: `DeadlineCatalogItem`
+ * Modela la estructura de datos para DeadlineCatalogItem en el ecosistema jurídico de Legal RD.
+ */
 export interface DeadlineCatalogItem {
   id: string;
   code: string;
@@ -21,6 +49,10 @@ export interface DeadlineCatalogItem {
   remedyAction: string;
 }
 
+/**
+ * Interfaz: `DeadlineCalculationResult`
+ * Modela la estructura de datos para DeadlineCalculationResult en el ecosistema jurídico de Legal RD.
+ */
 export interface DeadlineCalculationResult {
   catalogItem: DeadlineCatalogItem;
   startDate: string;
@@ -33,6 +65,10 @@ export interface DeadlineCalculationResult {
   legalFormula: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_DEADLINE_CATALOG`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_DEADLINE_CATALOG: DeadlineCatalogItem[] = [
   // 1. Materia Laboral
   {

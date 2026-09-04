@@ -1,12 +1,40 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Texto Íntegro y Oficial del Código de Trabajo de la República Dominicana (Ley 16-92)
+ * Ruta: src/lib/data/labor_code_complete.ts
+ * Ámbito Legal: Derecho Laboral y de la Seguridad Social Dominicano
+ * 
+ * PROPÓSITO:
+ * Transcripción íntegra estructurada de los 738 artículos del Código de Trabajo con principios fundamentales, libros, títulos, capítulos y secciones.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Ley No. 16-92 (Gaceta Oficial No. 9836 del 31 de mayo de 1992).
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Catálogo Completo de los 738 Artículos de la Ley 16-92 (Código de Trabajo de la República Dominicana)
 import { ArticleItem } from './norms';
 
+/**
+ * Interfaz: `ExtendedArticleItem`
+ * Modela la estructura de datos para ExtendedArticleItem en el ecosistema jurídico de Legal RD.
+ */
 export interface ExtendedArticleItem extends ArticleItem {
   isKeyArticle?: boolean;
   libroStructure?: string;
   structureDesc?: string;
 }
 
+/**
+ * Catálogo Maestro / Constante: `COMPLETE_LABOR_CODE_ARTICLES`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const COMPLETE_LABOR_CODE_ARTICLES: ExtendedArticleItem[] = [
   {
     "id": "art-1",

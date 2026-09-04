@@ -1,3 +1,23 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Repositorio de Descargas de Textos Jurídicos Oficiales
+ * Ruta: src/lib/data/repository.ts
+ * Ámbito Legal: Biblioteca Digital Jurídica
+ * 
+ * PROPÓSITO:
+ * Catálogo de leyes completas, reglamentos y códigos dominicanos listos para descarga e investigación offline.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Ediciones oficiales de la Consultoría Jurídica del Poder Ejecutivo.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 ﻿export interface DownloadItem {
   id: string;
   slug: string;
@@ -19,6 +39,10 @@
   }[];
 }
 
+/**
+ * Interfaz: `LegalUpdateAlert`
+ * Modela la estructura de datos para LegalUpdateAlert en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalUpdateAlert {
   id: string;
   branchSlug: string;
@@ -31,6 +55,10 @@ export interface LegalUpdateAlert {
   isAppliedImmediately: boolean;
 }
 
+/**
+ * Interfaz: `LegalBranchRepository`
+ * Modela la estructura de datos para LegalBranchRepository en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalBranchRepository {
   id: string;
   name: string;
@@ -42,6 +70,10 @@ export interface LegalBranchRepository {
   recentUpdates: LegalUpdateAlert[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `LEGAL_BRANCHES_REPOSITORY`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const LEGAL_BRANCHES_REPOSITORY: LegalBranchRepository[] = [
   {
     id: 'rama-laboral',
@@ -801,10 +833,18 @@ export const LEGAL_BRANCHES_REPOSITORY: LegalBranchRepository[] = [
   },
 ];
 
+/**
+ * Función Operativa: `getBranchRepositoryBySlug`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function getBranchRepositoryBySlug(slug: string): LegalBranchRepository | null {
   return LEGAL_BRANCHES_REPOSITORY.find((b) => b.slug === slug) || null;
 }
 
+/**
+ * Función Operativa: `getAllRecentUpdateAlerts`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export function getAllRecentUpdateAlerts(): LegalUpdateAlert[] {
   const alerts: LegalUpdateAlert[] = [];
   for (const b of LEGAL_BRANCHES_REPOSITORY) {

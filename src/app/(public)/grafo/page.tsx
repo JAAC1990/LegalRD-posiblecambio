@@ -1,5 +1,21 @@
 'use client';
 
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Archivo: src/app/(public)/grafo/page.tsx
+ * Área: Módulo Público de Litigio e Investigación
+ * 
+ * DESCRIPCIÓN:
+ * Herramientas de consulta abierta, cálculo de plazos, simuladores, fichas de conceptos y asistente jurídico.
+ * 
+ * CONTEXTO DE APLICACIÓN:
+ * Diseñado conforme a las normas procesales y sustantivas vigentes
+ * en la República Dominicana (Código Civil, Código de Trabajo,
+ * Código de Procedimiento Civil, Ley 108-05, Ley 2-23, Ley 137-11).
+ * ====================================================================
+ */
 import { useState } from 'react';
 import Link from 'next/link';
 import { DOMINICAN_LEGAL_GRAPH, GraphNode, GraphEdge, GraphNodeType } from '@/lib/data/graphData';
@@ -26,6 +42,11 @@ const NODE_TYPE_LABELS: Record<GraphNodeType, { label: string; badgeColor: strin
   DOCUMENT: { label: 'Modelo / Documento', badgeColor: 'bg-blue-100 text-blue-900 border-blue-300' },
 };
 
+/**
+ * Componente Principal de Vista: `GrafoJuridicoPage`
+ * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
+ * @returns Elemento JSX representativo de la página o vista
+ */
 export default function GrafoJuridicoPage() {
   const [selectedNodeId, setSelectedNodeId] = useState<string>('node-concept-resp-civil');
   const [filterType, setFilterType] = useState<string>('ALL');

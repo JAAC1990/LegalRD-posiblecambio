@@ -1,7 +1,35 @@
+/**
+ * ====================================================================
+ * LEGAL RD — SISTEMA OPERATIVO JURÍDICO DOMINICANO
+ * ====================================================================
+ * Módulo: Grafo Jurídico de Relaciones Multidimensionales
+ * Ruta: src/lib/data/graphData.ts
+ * Ámbito Legal: Teoría de Redes Jurídicas y Ontología Legal Dominicana
+ * 
+ * PROPÓSITO:
+ * Estructura de nodos (Leyes, Artículos, Precedentes, Conceptos, Procedimientos, Modelos) y aristas tipadas (deroga, modifica, interpreta, reglamenta, sustenta) que modelan las interconexiones del Derecho Dominicano.
+ * 
+ * FUNDAMENTOS NORMATIVOS:
+ * Constitución Dominicana, Ley 2-23, Ley 4-23, Ley 16-92, Código Civil, Precedentes de la SCJ y Tribunal Constitucional.
+ * 
+ * REGLA FUNDAMENTAL DE PRESERVACIÓN ACUMULATIVA:
+ * Este archivo forma parte del ecosistema integral de Legal RD.
+ * No se permite eliminar, simplificar ni alterar la lógica preexistente.
+ * ====================================================================
+ */
+
 // Nodos y Relaciones Transversales para el Grafo Jurídico Interactivo Dominicano
 
+/**
+ * Tipo: `GraphNodeType`
+ * Define los valores admitidos para GraphNodeType según las reglas del dominio dominicano.
+ */
 export type GraphNodeType = 'NORM' | 'ARTICLE' | 'CONCEPT' | 'CASE_LAW' | 'PROCEDURE' | 'DOCUMENT';
 
+/**
+ * Interfaz: `GraphNode`
+ * Modela la estructura de datos para GraphNode en el ecosistema jurídico de Legal RD.
+ */
 export interface GraphNode {
   id: string;
   label: string;
@@ -13,6 +41,10 @@ export interface GraphNode {
   colorClass: string;
 }
 
+/**
+ * Interfaz: `GraphEdge`
+ * Modela la estructura de datos para GraphEdge en el ecosistema jurídico de Legal RD.
+ */
 export interface GraphEdge {
   id: string;
   source: string;
@@ -21,11 +53,19 @@ export interface GraphEdge {
   description?: string;
 }
 
+/**
+ * Interfaz: `LegalGraphDataset`
+ * Modela la estructura de datos para LegalGraphDataset en el ecosistema jurídico de Legal RD.
+ */
 export interface LegalGraphDataset {
   nodes: GraphNode[];
   edges: GraphEdge[];
 }
 
+/**
+ * Catálogo Maestro / Constante: `DOMINICAN_LEGAL_GRAPH`
+ * Datos estructurados y verificados del ordenamiento jurídico de la República Dominicana.
+ */
 export const DOMINICAN_LEGAL_GRAPH: LegalGraphDataset = {
   nodes: [
     // 1. Nodo Central: Responsabilidad Civil
@@ -248,6 +288,10 @@ export const DOMINICAN_LEGAL_GRAPH: LegalGraphDataset = {
   ],
 };
 
+/**
+ * Función Operativa: `getLegalGraphDataset`
+ * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ */
 export async function getLegalGraphDataset(): Promise<LegalGraphDataset> {
   return DOMINICAN_LEGAL_GRAPH;
 }
