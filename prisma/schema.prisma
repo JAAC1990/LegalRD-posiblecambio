@@ -1,0 +1,560 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -------------------------------------------------------------
+// 1. SISTEMA DE USUARIOS, ROLES Y AUTENTICACIÓN
+// -------------------------------------------------------------
+
+enum RoleType {
+  SUPER_ADMIN
+  LEGAL_ADMIN
+  LAWYER
+  STUDENT
+  FREE_USER
+  PREMIUM_USER
+}
+
+model User {
+  id            String          @id @default(uuid())
+  email         String          @unique
+  passwordHash  String
+  fullName      String
+  roleType      RoleType        @default(FREE_USER)
+  isActive      Boolean         @default(true)
+  isVerified    Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relaciones de contenido personal
+  favorites     UserFavorite[]
+  notes         UserNote[]
+  folders       UserFolder[]
+  searches      SavedSearch[]
+  quizAttempts  QuizAttempt[]
+  auditLogs     AuditLog[]
+  subscriptions Subscription[]
+
+  // Auditoría de contenido jurídico creado/modificado
+  createdNorms    LegalNorm[]    @relation("NormCreatedBy")
+  updatedNorms    LegalNorm[]    @relation("NormUpdatedBy")
+  createdArticles Article[]      @relation("ArticleCreatedBy")
+  updatedArticles Article[]      @relation("ArticleUpdatedBy")
+
+  @@index([email])
+  @@index([roleType])
+}
+
+// -------------------------------------------------------------
+// 2. ESPECIALIDADES Y FUENTES JURÍDICAS
+// -------------------------------------------------------------
+
+model Specialty {
+  id           String           @id @default(uuid())
+  name         String           @unique
+  slug         String           @unique
+  description  String?
+  iconName     String?
+  displayOrder Int              @default(0)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  norms        LegalNorm[]
+  caseLaws     CaseLaw[]
+  procedures   LegalProcedure[]
+  quizzes      StudyQuiz[]
+
+  @@index([slug])
+}
+
+model LegalSource {
+  id          String      @id @default(uuid())
+  name        String
+  institution String
+  url         String?
+  officialRef String?
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  norms       LegalNorm[]
+  caseLaws    CaseLaw[]
+}
+
+// -------------------------------------------------------------
+// 3. NORMAS JURÍDICAS (LEYES, CÓDIGOS, DECRETOS, CONSTITUCIÓN)
+// -------------------------------------------------------------
+
+enum NormType {
+  CONSTITUTION
+  CODE
+  LAW
+  DECREE
+  REGULATION
+  RESOLUTION
+  TECHNICAL_RULE
+  ADMINISTRATIVE_RULE
+  TREATY
+  INTERNATIONAL_AGREEMENT
+  OTHER
+}
+
+enum NormStatus {
+  VIGENTE
+  MODIFICADA
+  DEROGADA
+  PARCIALMENTE_DEROGADA
+  SUSPENDIDA
+  PENDIENTE_VERIFICACION
+}
+
+model LegalNorm {
+  id               String          @id @default(uuid())
+  number           String
+  name             String
+  shortName        String?
+  slug             String          @unique
+  normType         NormType
+  status           NormStatus      @default(VIGENTE)
+  specialtyId      String
+  specialty        Specialty       @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+  sourceId         String?
+  source           LegalSource?    @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  promulgationDate DateTime?
+  publicationDate  DateTime?
+  effectiveDate    DateTime?
+
+  summary          String?         @db.Text
+  originalDocUrl   String?
+  consolidatedText String?         @db.Text
+  remarks          String?         @db.Text
+
+  createdById      String?
+  createdBy        User?           @relation("NormCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById      String?
+  updatedBy        User?           @relation("NormUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  articles          Article[]
+  outgoingRelations LegalRelation[] @relation("SourceNormRelation")
+  incomingRelations LegalRelation[] @relation("TargetNormRelation")
+  userFavorites     UserFavorite[]
+  userNotes         UserNote[]
+  folderItems       UserFolderItem[]
+
+  @@index([number])
+  @@index([normType])
+  @@index([status])
+  @@index([specialtyId])
+}
+
+// -------------------------------------------------------------
+// 4. ARTÍCULOS Y CONTROL HISTÓRICO DE VERSIONES
+// -------------------------------------------------------------
+
+model Article {
+  id               String           @id @default(uuid())
+  normId           String
+  norm             LegalNorm        @relation(fields: [normId], references: [id], onDelete: Cascade)
+
+  articleNumber    Int
+  articleNumberSub String?
+  displayNumber    String
+  title            String?
+  content          String           @db.Text
+
+  status           NormStatus       @default(VIGENTE)
+  keywords         String[]
+
+  createdById      String?
+  createdBy        User?            @relation("ArticleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedById      String?
+  updatedBy        User?            @relation("ArticleUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  versions         ArticleVersion[]
+  caseLawLinks     CaseLawArticle[]
+  procedureLinks   ProcedureArticle[]
+  userFavorites    UserFavorite[]
+  userNotes        UserNote[]
+  folderItems      UserFolderItem[]
+
+  @@unique([normId, articleNumber, articleNumberSub])
+  @@index([normId])
+  @@index([articleNumber])
+}
+
+model ArticleVersion {
+  id               String      @id @default(uuid())
+  articleId        String
+  article          Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  versionNumber    Int         @default(1)
+  previousContent  String      @db.Text
+  newContent       String      @db.Text
+  modificationDate DateTime
+  modifyingNormRef String
+  reasonSummary    String?     @db.Text
+  officialSource   String?
+
+  createdAt        DateTime    @default(now())
+
+  @@index([articleId])
+  @@index([modificationDate])
+}
+
+// -------------------------------------------------------------
+// 5. RELACIONES INTER-NORMATIVAS
+// -------------------------------------------------------------
+
+enum RelationType {
+  MODIFIES
+  REPEALS
+  PARTIALLY_REPEALS
+  COMPLEMENTS
+  REGULATES
+  CITES
+  SUBSTITUTES
+  DEVELOPS
+  RELATED_TO
+}
+
+model LegalRelation {
+  id           String        @id @default(uuid())
+  sourceNormId String
+  sourceNorm   LegalNorm     @relation("SourceNormRelation", fields: [sourceNormId], references: [id], onDelete: Cascade)
+  targetNormId String
+  targetNorm   LegalNorm     @relation("TargetNormRelation", fields: [targetNormId], references: [id], onDelete: Cascade)
+  relationType RelationType
+  description  String?
+  createdAt    DateTime      @default(now())
+
+  @@index([sourceNormId])
+  @@index([targetNormId])
+}
+
+// -------------------------------------------------------------
+// 6. JURISPRUDENCIA Y TRIBUNALES
+// -------------------------------------------------------------
+
+model Court {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  acronym      String?
+  chamber      String?
+  jurisdiction String?
+  createdAt    DateTime    @default(now())
+
+  caseLaws     CaseLaw[]
+}
+
+model CaseLaw {
+  id             String           @id @default(uuid())
+  courtId        String
+  court          Court            @relation(fields: [courtId], references: [id], onDelete: Restrict)
+  sentenceNumber String
+  judgmentDate   DateTime
+  docketNumber   String?
+  specialtyId    String
+  specialty      Specialty        @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+  sourceId       String?
+  source         LegalSource?     @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+
+  title          String
+  legalDoctrine  String           @db.Text
+  summary        String           @db.Text
+  fullText       String?          @db.Text
+  keywords       String[]
+  docUrl         String?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  articleLinks   CaseLawArticle[]
+  userFavorites  UserFavorite[]
+  userNotes      UserNote[]
+  folderItems    UserFolderItem[]
+
+  @@index([sentenceNumber])
+  @@index([courtId])
+  @@index([judgmentDate])
+  @@index([specialtyId])
+}
+
+model CaseLawArticle {
+  id            String    @id @default(uuid())
+  caseLawId     String
+  caseLaw       CaseLaw   @relation(fields: [caseLawId], references: [id], onDelete: Cascade)
+  articleId     String
+  article       Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  relevanceNote String?
+
+  @@unique([caseLawId, articleId])
+}
+
+// -------------------------------------------------------------
+// 7. PROCEDIMIENTOS JURÍDICOS Y REQUISITOS
+// -------------------------------------------------------------
+
+model LegalProcedure {
+  id              String             @id @default(uuid())
+  title           String
+  slug            String             @unique
+  specialtyId     String
+  specialty       Specialty          @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+  competentCourt  String
+  overview        String             @db.Text
+  legalDisclaimer String             @default("Este procedimiento tiene fines estrictamente informativos y educativos.")
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  stages          ProcedureStage[]
+  requirements    ProcedureDocReq[]
+  articleLinks    ProcedureArticle[]
+  userFavorites   UserFavorite[]
+  userNotes       UserNote[]
+  folderItems     UserFolderItem[]
+
+  @@index([slug])
+  @@index([specialtyId])
+}
+
+model ProcedureStage {
+  id           String         @id @default(uuid())
+  procedureId  String
+  procedure    LegalProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+  stepNumber   Int
+  title        String
+  description  String         @db.Text
+  timeframe    String?
+  observations String?        @db.Text
+
+  @@index([procedureId, stepNumber])
+}
+
+model ProcedureDocReq {
+  id          String         @id @default(uuid())
+  procedureId String
+  procedure   LegalProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+  docName     String
+  isMandatory Boolean        @default(true)
+  notes       String?
+}
+
+model ProcedureArticle {
+  id          String         @id @default(uuid())
+  procedureId String
+  procedure   LegalProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+  articleId   String
+  article     Article        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([procedureId, articleId])
+}
+
+// -------------------------------------------------------------
+// 8. ESPACIO DE TRABAJO PERSONAL (NOTAS, FAVORITOS, CARPETAS)
+// -------------------------------------------------------------
+
+enum ItemType {
+  NORM
+  ARTICLE
+  CASE_LAW
+  PROCEDURE
+}
+
+model UserFavorite {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemType    ItemType
+
+  normId      String?
+  norm        LegalNorm?      @relation(fields: [normId], references: [id], onDelete: Cascade)
+  articleId   String?
+  article     Article?        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  caseLawId   String?
+  caseLaw     CaseLaw?        @relation(fields: [caseLawId], references: [id], onDelete: Cascade)
+  procedureId String?
+  procedure   LegalProcedure? @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime        @default(now())
+
+  @@unique([userId, itemType, normId, articleId, caseLawId, procedureId])
+  @@index([userId])
+}
+
+model UserNote {
+  id          String          @id @default(uuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  content     String          @db.Text
+  isPrivate   Boolean         @default(true)
+  itemType    ItemType
+
+  normId      String?
+  norm        LegalNorm?      @relation(fields: [normId], references: [id], onDelete: Cascade)
+  articleId   String?
+  article     Article?        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  caseLawId   String?
+  caseLaw     CaseLaw?        @relation(fields: [caseLawId], references: [id], onDelete: Cascade)
+  procedureId String?
+  procedure   LegalProcedure? @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([userId])
+}
+
+model UserFolder {
+  id          String           @id @default(uuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  color       String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  items       UserFolderItem[]
+
+  @@index([userId])
+}
+
+model UserFolderItem {
+  id          String          @id @default(uuid())
+  folderId    String
+  folder      UserFolder      @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  itemType    ItemType
+
+  normId      String?
+  norm        LegalNorm?      @relation(fields: [normId], references: [id], onDelete: Cascade)
+  articleId   String?
+  article     Article?        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  caseLawId   String?
+  caseLaw     CaseLaw?        @relation(fields: [caseLawId], references: [id], onDelete: Cascade)
+  procedureId String?
+  procedure   LegalProcedure? @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime        @default(now())
+
+  @@index([folderId])
+}
+
+model SavedSearch {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  query     String
+  filters   Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// -------------------------------------------------------------
+// 9. MODO ESTUDIANTE (CUESTIONARIOS Y EVALUACIÓN)
+// -------------------------------------------------------------
+
+model StudyQuiz {
+  id          String         @id @default(uuid())
+  title       String
+  specialtyId String
+  specialty   Specialty      @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+  difficulty  String
+  description String?
+  createdAt   DateTime       @default(now())
+
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+
+  @@index([specialtyId])
+}
+
+model QuizQuestion {
+  id            String    @id @default(uuid())
+  quizId        String
+  quiz          StudyQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questionText  String    @db.Text
+  options       Json
+  correctOption String
+  explanation   String    @db.Text
+  legalBasisRef String
+
+  createdAt     DateTime  @default(now())
+
+  @@index([quizId])
+}
+
+model QuizAttempt {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        StudyQuiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score       Int
+  answers     Json
+  completedAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([quizId])
+}
+
+// -------------------------------------------------------------
+// 10. AUDITORÍA Y SEGURIDAD LEGAL
+// -------------------------------------------------------------
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String
+  oldValues Json?
+  newValues Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
+
+// -------------------------------------------------------------
+// 11. PREPARACIÓN PARA SAAS COMERCIAL (SUSCRIPCIONES)
+// -------------------------------------------------------------
+
+enum SubStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIAL
+}
+
+model Subscription {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planCode  String
+  status    SubStatus @default(TRIAL)
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
