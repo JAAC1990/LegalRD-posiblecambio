@@ -18,6 +18,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
+import { getPendingRequestsCount } from '@/lib/data/userManagement';
 import {
   ShieldAlert,
   LayoutDashboard,
@@ -28,7 +29,9 @@ import {
   Users,
   ShieldCheck,
   History,
-  ArrowLeft
+  ArrowLeft,
+  Bell,
+  Sparkles
 } from 'lucide-react';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -41,6 +44,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN') {
     redirect('/dashboard?error=unauthorized');
   }
+
+  const pendingCount = await getPendingRequestsCount();
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col">
@@ -109,6 +114,35 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               >
                 <FolderKanban className="w-4 h-4 text-slate-400" />
                 <span>Procedimientos</span>
+              </Link>
+            </nav>
+          </div>
+
+            <div>
+            <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-3">
+              Notificaciones & Accesos
+            </h4>
+            <nav className="space-y-1">
+              <Link
+                href="/admin/notificaciones"
+                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-slate-900 bg-amber-50/80 hover:bg-amber-100 border border-amber-300 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <Bell className="w-4 h-4 text-amber-600 fill-amber-500" />
+                  <span className="font-bold text-amber-950">Notificaciones</span>
+                </div>
+                {pendingCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-extrabold animate-pulse shadow-2xs">
+                    {pendingCount}
+                  </span>
+                )}
+              </Link>
+              <Link
+                href="/admin/solicitudes"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+              >
+                <Users className="w-4 h-4 text-slate-400" />
+                <span>Solicitudes & Prueba 15 Días</span>
               </Link>
             </nav>
           </div>

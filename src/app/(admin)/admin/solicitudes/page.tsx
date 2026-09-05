@@ -77,13 +77,23 @@ export default async function AdminSolicitudesPage({ searchParams }: Props) {
           </p>
         </div>
 
-        <Link
-          href="/admin"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-2xs hover:bg-slate-50 transition-colors w-fit"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Volver al Dashboard</span>
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/admin/notificaciones"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-950 bg-amber-500 hover:bg-amber-400 px-3.5 py-2 rounded-xl shadow-xs transition-colors w-fit"
+          >
+            <Bell className="w-4 h-4" />
+            <span>Centro de Notificaciones (15 Días)</span>
+          </Link>
+
+          <Link
+            href="/admin"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-2xs hover:bg-slate-50 transition-colors w-fit"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Volver al Dashboard</span>
+          </Link>
+        </div>
       </div>
 
       {/* Selector de Pestañas */}

@@ -157,8 +157,8 @@ export async function Navbar() {
               {isAdmin && (
                 <>
                   <Link
-                    href="/admin/solicitudes"
-                    title={`${pendingRequestsCount} Solicitudes de cuentas pendientes`}
+                    href="/admin/notificaciones"
+                    title={`${pendingRequestsCount} Nuevas solicitudes de acceso pendientes - Centro de Notificaciones`}
                     className="relative p-2 rounded-xl text-slate-600 hover:text-amber-600 hover:bg-amber-50 border border-slate-200 transition-colors"
                   >
                     <Bell className="w-4 h-4" />

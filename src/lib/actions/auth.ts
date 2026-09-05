@@ -32,6 +32,7 @@ import {
   rejectUserAccount,
   updateUserProfile,
   getUserById,
+  extendTrialDays,
 } from '@/lib/data/userManagement';
 import { revalidatePath } from 'next/cache';
 
@@ -184,9 +185,34 @@ export async function approveUserAction(formData: FormData) {
   }
 
   const userId = formData.get('userId') as string;
+  const trialDaysStr = formData.get('trialDays') as string;
+  const trialDays = trialDaysStr ? parseInt(trialDaysStr, 10) : 15;
   if (!userId) return;
 
-  await approveUserAccount(userId, session.email);
+  await approveUserAccount(userId, session.email, isNaN(trialDays) ? 15 : trialDays);
+  revalidatePath('/admin/notificaciones');
+  revalidatePath('/admin/solicitudes');
+  revalidatePath('/admin/usuarios');
+  revalidatePath('/admin');
+}
+
+/**
+ * Función Operativa: `extendTrialAction`
+ * Permite al SuperAdministrador extender o renovar el período de prueba de 15 días a un usuario.
+ */
+export async function extendTrialAction(formData: FormData) {
+  const session = await getSession();
+  if (!session || (session.roleType !== 'SUPER_ADMIN' && session.roleType !== 'LEGAL_ADMIN')) {
+    throw new Error('No tienes permisos de SuperAdministrador para extender períodos de prueba.');
+  }
+
+  const userId = formData.get('userId') as string;
+  const daysStr = formData.get('days') as string;
+  const days = daysStr ? parseInt(daysStr, 10) : 15;
+  if (!userId) return;
+
+  await extendTrialDays(userId, isNaN(days) ? 15 : days);
+  revalidatePath('/admin/notificaciones');
   revalidatePath('/admin/solicitudes');
   revalidatePath('/admin/usuarios');
   revalidatePath('/admin');
@@ -207,6 +233,7 @@ export async function rejectUserAction(formData: FormData) {
   if (!userId) return;
 
   await rejectUserAccount(userId, reason, session.email);
+  revalidatePath('/admin/notificaciones');
   revalidatePath('/admin/solicitudes');
   revalidatePath('/admin/usuarios');
   revalidatePath('/admin');

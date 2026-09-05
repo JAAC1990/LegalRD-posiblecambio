@@ -60,6 +60,25 @@ export interface UserAccountItem {
   reviewedAt?: string;
   reviewedBy?: string;
   rejectionReason?: string;
+  // Período de Prueba de 15 Días
+  trialStartsAt?: string;
+  trialEndsAt?: string;
+  isTrialActive?: boolean;
+}
+
+/**
+ * Interfaz: `UserTrialInfo`
+ * Modela el estado detallado del período de prueba de 15 días para un usuario.
+ */
+export interface UserTrialInfo {
+  hasTrial: boolean;
+  isTrialActive: boolean;
+  isTrialExpired: boolean;
+  daysRemaining: number;
+  trialStartsAt: string;
+  trialEndsAt: string;
+  totalTrialDays: number;
+  percentageUsed: number;
 }
 
 // Almacén global en memoria persistente durante la ejecución
@@ -105,6 +124,9 @@ if (!globalUsersStore.__legalrd_users_store) {
       requestedAt: '2026-08-10T14:30:00Z',
       reviewedAt: '2026-08-10T15:00:00Z',
       reviewedBy: 'admin@legalrd.do',
+      trialStartsAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+      trialEndsAt: new Date(Date.now() + 12 * 86400000).toISOString(),
+      isTrialActive: true,
     },
     {
       id: 'usr-student-1',
@@ -124,6 +146,9 @@ if (!globalUsersStore.__legalrd_users_store) {
       requestedAt: '2026-08-15T09:15:00Z',
       reviewedAt: '2026-08-15T10:00:00Z',
       reviewedBy: 'admin@legalrd.do',
+      trialStartsAt: new Date(Date.now() - 1 * 86400000).toISOString(),
+      trialEndsAt: new Date(Date.now() + 14 * 86400000).toISOString(),
+      isTrialActive: true,
     },
     // Solicitudes Pendientes para Aprobación del SuperAdmin
     {
@@ -235,16 +260,104 @@ export async function getUserById(id: string): Promise<UserAccountItem | null> {
 }
 
 /**
- * Función Operativa: `approveUserAccount`
- * Procesa la lógica de negocio y reglas jurídicas correspondientes.
+ * Función Operativa: `getTrialInfo`
+ * Calcula el estado detallado del período de prueba de 15 días para un usuario dado.
+ * @param user Usuario a evaluar
+ * @returns Información de vigencia, días restantes y porcentaje consumido de la prueba
  */
-export async function approveUserAccount(userId: string, reviewerEmail: string): Promise<boolean> {
+export function getTrialInfo(user: UserAccountItem): UserTrialInfo {
+  const now = new Date();
+
+  // Si no tiene fechas explícitas, inferir desde su fecha de revisión o solicitud
+  if (!user.trialStartsAt || !user.trialEndsAt) {
+    const baseDate = new Date(user.reviewedAt || user.requestedAt || Date.now());
+    const ends = new Date(baseDate.getTime() + 15 * 24 * 60 * 60 * 1000);
+    const diffMs = ends.getTime() - now.getTime();
+    const daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+    const isTrialExpired = daysRemaining <= 0;
+    const isTrialActive = user.status === 'ACTIVE' && !isTrialExpired;
+    const percentageUsed = Math.min(100, Math.max(0, Math.round(((15 - daysRemaining) / 15) * 100)));
+
+    return {
+      hasTrial: true,
+      isTrialActive,
+      isTrialExpired,
+      daysRemaining,
+      trialStartsAt: baseDate.toISOString(),
+      trialEndsAt: ends.toISOString(),
+      totalTrialDays: 15,
+      percentageUsed,
+    };
+  }
+
+  const start = new Date(user.trialStartsAt);
+  const end = new Date(user.trialEndsAt);
+  const diffMs = end.getTime() - now.getTime();
+  const daysRemaining = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  const isTrialExpired = daysRemaining <= 0;
+  const isTrialActive = user.status === 'ACTIVE' && !isTrialExpired;
+  const totalDays = Math.max(1, Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+  const percentageUsed = Math.min(100, Math.max(0, Math.round(((totalDays - daysRemaining) / totalDays) * 100)));
+
+  return {
+    hasTrial: true,
+    isTrialActive,
+    isTrialExpired,
+    daysRemaining,
+    trialStartsAt: user.trialStartsAt,
+    trialEndsAt: user.trialEndsAt,
+    totalTrialDays: totalDays,
+    percentageUsed,
+  };
+}
+
+/**
+ * Función Operativa: `approveUserAccount`
+ * Concede acceso al usuario activando formalmente su período de prueba de 15 días.
+ * @param userId Identificador del usuario a autorizar
+ * @param reviewerEmail Correo del SuperAdministrador que autoriza el acceso
+ * @param trialDays Cantidad de días de prueba asignados (por defecto 15 días)
+ */
+export async function approveUserAccount(
+  userId: string,
+  reviewerEmail: string,
+  trialDays: number = 15
+): Promise<boolean> {
   const user = usersMap.get(userId);
   if (!user) return false;
 
+  const now = new Date();
+  const ends = new Date(now.getTime() + trialDays * 24 * 60 * 60 * 1000);
+
   user.status = 'ACTIVE';
-  user.reviewedAt = new Date().toISOString();
+  user.reviewedAt = now.toISOString();
   user.reviewedBy = reviewerEmail;
+  user.trialStartsAt = now.toISOString();
+  user.trialEndsAt = ends.toISOString();
+  user.isTrialActive = true;
+
+  usersMap.set(user.id, user);
+  usersMap.set(user.email.toLowerCase(), user);
+  return true;
+}
+
+/**
+ * Función Operativa: `extendTrialDays`
+ * Permite al SuperAdministrador extender o renovar el período de prueba de un usuario.
+ * @param userId Identificador del usuario
+ * @param extraDays Días adicionales a sumar (por defecto 15 días)
+ */
+export async function extendTrialDays(userId: string, extraDays: number = 15): Promise<boolean> {
+  const user = usersMap.get(userId);
+  if (!user) return false;
+
+  const currentEnd = user.trialEndsAt ? new Date(user.trialEndsAt) : new Date();
+  const baseDate = currentEnd.getTime() > Date.now() ? currentEnd : new Date();
+  const newEnd = new Date(baseDate.getTime() + extraDays * 24 * 60 * 60 * 1000);
+
+  user.trialEndsAt = newEnd.toISOString();
+  user.isTrialActive = true;
+  user.status = 'ACTIVE';
 
   usersMap.set(user.id, user);
   usersMap.set(user.email.toLowerCase(), user);
@@ -284,6 +397,9 @@ export async function registerNewAccountRequest(data: {
   roleType: RoleType;
   profile: UserProfileData;
 }): Promise<UserAccountItem> {
+  const now = new Date();
+  const ends = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000);
+
   const newAccount: UserAccountItem = {
     id: 'usr-req-' + Date.now(),
     email: data.email.toLowerCase(),
@@ -292,7 +408,10 @@ export async function registerNewAccountRequest(data: {
     roleType: data.roleType,
     status: 'PENDING_APPROVAL',
     profile: data.profile,
-    requestedAt: new Date().toISOString(),
+    requestedAt: now.toISOString(),
+    trialStartsAt: now.toISOString(),
+    trialEndsAt: ends.toISOString(),
+    isTrialActive: false,
   };
 
   usersMap.set(newAccount.id, newAccount);

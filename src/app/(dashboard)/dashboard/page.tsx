@@ -19,6 +19,8 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/auth';
 import { logoutAction } from '@/lib/actions/auth';
+import { getUserById, getUserByEmail, getTrialInfo } from '@/lib/data/userManagement';
+import TrialBanner from '@/components/legal/TrialBanner';
 import {
   BookOpen,
   Bookmark,
@@ -50,11 +52,19 @@ export default async function DashboardPage() {
     redirect('/login');
   }
 
+  const userAccount = (await getUserById(session.id)) || (await getUserByEmail(session.email));
+  const trialInfo = userAccount ? getTrialInfo(userAccount) : null;
+
   const roleInfo = ROLE_LABELS[session.roleType] || ROLE_LABELS.FREE_USER;
   const isAdmin = session.roleType === 'SUPER_ADMIN' || session.roleType === 'LEGAL_ADMIN';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-8">
+      {/* Banner del Período de Prueba de 15 Días */}
+      {trialInfo && trialInfo.hasTrial && session.roleType !== 'SUPER_ADMIN' && (
+        <TrialBanner trial={trialInfo} userName={session.fullName} />
+      )}
+
       {/* Cabecera del Usuario */}
       <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">

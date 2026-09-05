@@ -15,10 +15,11 @@
  * ====================================================================
  */
 
-﻿import { getSession } from '@/lib/auth';
+import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import { getUserByEmail, getUserById } from '@/lib/data/userManagement';
+import { getUserByEmail, getUserById, getTrialInfo } from '@/lib/data/userManagement';
 import { updateProfileDirectAction } from '@/lib/actions/auth';
+import TrialBanner from '@/components/legal/TrialBanner';
 import {
   User,
   ShieldCheck,
@@ -46,6 +47,7 @@ export default async function MiPerfilPage() {
   }
 
   const userAccount = (await getUserById(session.id)) || (await getUserByEmail(session.email));
+  const trialInfo = userAccount ? getTrialInfo(userAccount) : null;
   const roleType = session.roleType;
 
   const isLawyer = roleType === 'LAWYER';
@@ -72,7 +74,12 @@ export default async function MiPerfilPage() {
     : 'bg-blue-100 text-blue-900 border-blue-300';
 
   return (
-    <div className="max-w-5xl mx-auto space-y-10 w-full">
+    <div className="max-w-5xl mx-auto space-y-8 w-full">
+      {/* Banner de Período de Prueba de 15 Días (si aplica) */}
+      {trialInfo && trialInfo.hasTrial && !isSuperAdmin && (
+        <TrialBanner trial={trialInfo} userName={session.fullName} />
+      )}
+
       {/* Cabecera del Perfil */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-lg space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">

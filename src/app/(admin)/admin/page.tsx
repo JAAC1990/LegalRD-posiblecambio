@@ -16,6 +16,7 @@
  */
 
 ﻿import Link from 'next/link';
+import { getPendingRequestsCount } from '@/lib/data/userManagement';
 import {
   Award,
   BookOpen,
@@ -30,7 +31,8 @@ import {
   UploadCloud,
   Layers,
   GitFork,
-  Sparkles
+  Sparkles,
+  Bell
 } from 'lucide-react';
 
 const ADMIN_METRICS = [
@@ -47,7 +49,9 @@ const ADMIN_METRICS = [
  * Renderiza la interfaz de usuario interactiva y coordina el flujo operativo del módulo.
  * @returns Elemento JSX representativo de la página o vista
  */
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const pendingCount = await getPendingRequestsCount();
+
   return (
     <div className="space-y-8 max-w-6xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -58,12 +62,76 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/admin/notificaciones"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
+          >
+            <Bell className="w-4 h-4" />
+            <span>Notificaciones de Usuarios</span>
+            {pendingCount > 0 && (
+              <span className="px-2 py-0.5 rounded-full bg-slate-950 text-amber-300 text-[11px] font-extrabold animate-pulse">
+                {pendingCount}
+              </span>
+            )}
+          </Link>
+
+          <Link
+            href="/admin/importar"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs shadow-md transition-all cursor-pointer w-fit"
+          >
+            <UploadCloud className="w-4 h-4" />
+            <span>⚡ Importar & Parser de Leyes</span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Tarjeta de Alerta y Notificación Directa para el SuperUsuario */}
+      <div className={`p-6 rounded-3xl border transition-all shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 ${
+        pendingCount > 0
+          ? 'bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-white border-amber-300 ring-1 ring-amber-400/30'
+          : 'bg-white border-slate-200'
+      }`}>
+        <div className="flex items-start gap-4">
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-xs ${
+            pendingCount > 0 ? 'bg-amber-500 text-slate-950' : 'bg-slate-100 text-slate-600'
+          }`}>
+            <Bell className={`w-6 h-6 ${pendingCount > 0 ? 'animate-bounce' : ''}`} />
+          </div>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                pendingCount > 0 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-slate-100 text-slate-700'
+              }`}>
+                Centro de Notificaciones & Control de Acceso
+              </span>
+              <span className="text-xs font-semibold text-slate-500">
+                Período de Prueba de 15 Días
+              </span>
+            </div>
+            <h2 className="text-lg font-serif font-bold text-slate-900">
+              {pendingCount > 0
+                ? `Tienes ${pendingCount} ${pendingCount === 1 ? 'nueva solicitud de acceso pendiente' : 'nuevas solicitudes de acceso pendientes'}`
+                : 'Sin solicitudes pendientes de aprobación'}
+            </h2>
+            <p className="text-xs text-slate-600 max-w-2xl leading-relaxed">
+              {pendingCount > 0
+                ? 'Nuevos profesionales y estudiantes de derecho solicitan unirse a Legal RD. Revisa sus credenciales de colegiatura (CARD / Universidad) y concédeles acceso con 15 días de prueba gratuita.'
+                : 'Todas las solicitudes han sido gestionadas. Puedes consultar la lista de usuarios activos, monitorear el consumo de sus 15 días de prueba u otorgar extensiones adicionales.'}
+            </p>
+          </div>
+        </div>
+
         <Link
-          href="/admin/importar"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs shadow-md transition-all cursor-pointer w-fit"
+          href="/admin/notificaciones"
+          className={`px-5 py-3 rounded-2xl font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 shrink-0 ${
+            pendingCount > 0
+              ? 'bg-slate-900 hover:bg-slate-800 text-amber-400'
+              : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+          }`}
         >
-          <UploadCloud className="w-4 h-4" />
-          <span>⚡ Importar & Parser de Leyes</span>
+          <span>{pendingCount > 0 ? 'Revisar & Dar Acceso (15 Días)' : 'Ver Notificaciones'}</span>
+          <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
 
